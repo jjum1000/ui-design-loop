@@ -1,0 +1,95 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "decisions",
+ "type": "array",
+ "items": {
+  "type": "object",
+  "properties": {
+   "id": {
+    "type": "string",
+    "pattern": "^d-[0-9]{4,}$"
+   },
+   "type": {
+    "enum": [
+     "그룹",
+     "토큰",
+     "분류",
+     "템플릿"
+    ]
+   },
+   "target": {
+    "type": "string"
+   },
+   "status": {
+    "enum": [
+     "표준",
+     "폐기",
+     "예외",
+     "분류"
+    ]
+   },
+   "to": {
+    "type": [
+     "string",
+     "null"
+    ]
+   },
+   "kind": {
+    "type": [
+     "string",
+     "null"
+    ]
+   },
+   "reason": {
+    "type": [
+     "string",
+     "null"
+    ]
+   },
+   "supersedes": {
+    "type": [
+     "string",
+     "null"
+    ]
+   },
+   "memberSnapshot": {
+    "type": "array",
+    "items": {
+     "type": "string"
+    }
+   },
+   "by": {
+    "enum": [
+     "user",
+     "agent"
+    ]
+   },
+   "at": {
+    "type": "string"
+   },
+   "batch": {
+    "type": "string",
+    "pattern": "^b[0-9]+$"
+   },
+   "questionId": {
+    "type": [
+     "string",
+     "null"
+    ]
+   }
+  },
+  "required": [
+   "id",
+   "type",
+   "target",
+   "status",
+   "to",
+   "supersedes",
+   "memberSnapshot",
+   "by",
+   "at",
+   "batch",
+   "questionId"
+  ]
+ }
+}

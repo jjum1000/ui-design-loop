@@ -1,0 +1,9 @@
+{
+  "name": "ui-design-loop",
+  "version": "0.1.0",
+  "description": "Audit a Unity uGUI project's UI, build a browsable catalog and an agent-readable design-system index, then design new screens (wireframe -> skinned mockup) and run a reviewer feedback loop on them.",
+  "license": "MIT",
+  "homepage": "https://github.com/jjum1000/ui-design-loop",
+  "repository": "https://github.com/jjum1000/ui-design-loop",
+  "keywords": ["unity", "ugui", "ui", "design-system", "audit", "catalog", "wireframe", "feedback"]
+}

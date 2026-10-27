@@ -1,0 +1,152 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "code-usage",
+ "type": "object",
+ "properties": {
+  "updatedAt": {
+   "type": "string"
+  },
+  "uiTypes": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "uiType": {
+      "type": "string"
+     },
+     "controller": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "prefabName": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "address": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "prefab": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "file": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "line": {
+      "type": [
+       "integer",
+       "null"
+      ]
+     }
+    },
+    "required": [
+     "uiType",
+     "prefab"
+    ]
+   }
+  },
+  "loaderKeys": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "key": {
+      "type": "string"
+     },
+     "prefab": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "users": {
+      "type": "array",
+      "items": {
+       "type": "object"
+      }
+     }
+    },
+    "required": [
+     "key",
+     "prefab"
+    ]
+   }
+  },
+  "wrapContent": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "user": {
+      "type": "string"
+     },
+     "guid": {
+      "type": "string"
+     },
+     "prefab": {
+      "type": [
+       "string",
+       "null"
+      ]
+     }
+    },
+    "required": [
+     "user",
+     "guid",
+     "prefab"
+    ]
+   }
+  },
+  "localResourceUI": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string"
+     },
+     "prefab": {
+      "type": [
+       "string",
+       "null"
+      ]
+     }
+    },
+    "required": [
+     "name",
+     "prefab"
+    ]
+   }
+  },
+  "unresolved": {
+   "type": "array",
+   "items": {
+    "type": "object"
+   }
+  },
+  "stats": {
+   "type": "object"
+  }
+ },
+ "required": [
+  "updatedAt",
+  "uiTypes",
+  "loaderKeys",
+  "wrapContent",
+  "localResourceUI",
+  "unresolved",
+  "stats"
+ ]
+}

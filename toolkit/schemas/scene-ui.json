@@ -1,0 +1,70 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "scene-ui",
+ "type": "object",
+ "properties": {
+  "scene": {
+   "type": "string"
+  },
+  "path": {
+   "type": "string",
+   "pattern": "^Assets/"
+  },
+  "updatedAt": {
+   "type": "string"
+  },
+  "canvases": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "root": {
+      "type": "string"
+     },
+     "nodes": {
+      "type": "array",
+      "items": {
+       "type": "object",
+       "properties": {
+        "path": {
+         "type": "string"
+        },
+        "name": {
+         "type": "string"
+        },
+        "components": {
+         "type": "array",
+         "items": {
+          "type": "string"
+         }
+        },
+        "nested": {
+         "type": [
+          "string",
+          "null"
+         ]
+        }
+       },
+       "required": [
+        "path",
+        "name",
+        "components",
+        "nested"
+       ]
+      }
+     }
+    },
+    "required": [
+     "root",
+     "nodes"
+    ]
+   }
+  }
+ },
+ "required": [
+  "scene",
+  "path",
+  "updatedAt",
+  "canvases"
+ ]
+}

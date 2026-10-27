@@ -1,0 +1,88 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "classified",
+ "type": "object",
+ "properties": {
+  "batch": {
+   "type": "string",
+   "pattern": "^b[0-9]+$"
+  },
+  "screen": {
+   "type": "string",
+   "pattern": "^[a-z0-9][a-z0-9_.-]*$"
+  },
+  "updatedAt": {
+   "type": "string"
+  },
+  "nodes": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "kind": {
+      "enum": [
+       "button",
+       "tab",
+       "toggle",
+       "popup",
+       "slot",
+       "gauge",
+       "currency",
+       "reddot",
+       "tooltip",
+       "toast",
+       "listcell",
+       "icon",
+       "textstyle",
+       "decor",
+       "other"
+      ]
+     },
+     "basis": {
+      "type": "string",
+      "minLength": 1
+     },
+     "confidence": {
+      "enum": [
+       "high",
+       "medium",
+       "low"
+      ]
+     },
+     "by": {
+      "enum": [
+       "rule",
+       "decision",
+       "agent"
+      ]
+     },
+     "structural": {
+      "type": "boolean"
+     },
+     "questionId": {
+      "type": [
+       "string",
+       "null"
+      ]
+     }
+    },
+    "required": [
+     "id",
+     "kind",
+     "basis",
+     "confidence",
+     "by"
+    ]
+   }
+  }
+ },
+ "required": [
+  "batch",
+  "screen",
+  "updatedAt",
+  "nodes"
+ ]
+}

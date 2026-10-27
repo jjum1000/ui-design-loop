@@ -1,0 +1,60 @@
+/* ui-audit app-flow 배지 스타일 — 손으로 관리하는 원본(catalog_assets.py 가 덮어쓰지 않음).
+   explorer.css 가 이미 정의한 테마 변수(--acc·--ok·--warn·--mut·--line·--panel, 라이트/다크 둘 다)를 그대로 쓴다.
+   그 변수가 없는 페이지(예: 이 조각만 떼어 쓰는 테스트 페이지)에서도 깨지지 않게 fallback 값을 같이 둔다.
+   출처: feedback/CONTRACT.md 4.6. */
+.fbprogress { margin: 10px 0; }
+.fbprogress td, .fbprogress th { white-space: nowrap; }
+
+.fbbadges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  font-size: 11px;
+}
+
+.fbchip {
+  display: inline-block;
+  padding: 1px 7px;
+  border: 1px solid var(--line, #888);
+  background: var(--panel, transparent);
+  color: var(--fg, inherit);
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.fbcount {
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  color: var(--mut, #888);
+  white-space: nowrap;
+}
+
+.fblink {
+  font-size: 11px;
+  color: var(--acc, #ffd21f);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.fblink:hover { text-decoration: underline; }
+
+.fblinks { display: flex; flex-direction: column; gap: 2px; }
+
+.app:has(> .fbappbadge) { position: relative; } /* 배지 기준 = 앱 아이콘 버튼(통합 시 추가) */
+.fbappbadge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 9px;
+  background: var(--warn, #e9b44c);
+  color: var(--ink, #12110e);
+  font-family: var(--mono, monospace);
+  font-size: 10px;
+  line-height: 16px;
+  text-align: center;
+}

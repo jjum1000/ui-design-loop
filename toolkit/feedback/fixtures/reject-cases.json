@@ -1,0 +1,639 @@
+[
+ {
+  "name": "모르는 id",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "comment",
+   "id": "fb-0099",
+   "text": "x"
+  }
+ },
+ {
+  "name": "없는 화면",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "open",
+   "screen": "NoSuchView",
+   "stage": "mockup",
+   "kind": "bug",
+   "text": "x",
+   "component": "feed-row"
+  }
+ },
+ {
+  "name": "화면에 없는 stage",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "open",
+   "screen": "ShopBuyPopup",
+   "stage": "mockup",
+   "kind": "bug",
+   "text": "x",
+   "component": "feed-row"
+  }
+ },
+ {
+  "name": "없는 state",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "open",
+   "screen": "ShopView",
+   "stage": "mockup",
+   "kind": "bug",
+   "text": "x",
+   "component": "feed-row",
+   "state": "nope"
+  }
+ },
+ {
+  "name": "없는 version(시안)",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "open",
+   "screen": "ShopView",
+   "stage": "mockup",
+   "kind": "bug",
+   "text": "x",
+   "component": "feed-row",
+   "version": "zz"
+  }
+ },
+ {
+  "name": "그 시안에 없는 state",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "open",
+   "screen": "ShopView",
+   "stage": "mockup",
+   "kind": "bug",
+   "text": "x",
+   "component": "feed-row",
+   "version": "c",
+   "state": "team"
+  }
+ },
+ {
+  "name": "모르는 kind",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "open",
+   "screen": "ShopView",
+   "stage": "mockup",
+   "kind": "pretty",
+   "text": "x",
+   "component": "feed-row"
+  }
+ },
+ {
+  "name": "허용 안 된 키",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "open",
+   "screen": "ShopView",
+   "stage": "mockup",
+   "kind": "bug",
+   "text": "x",
+   "component": "feed-row",
+   "foo": 1
+  }
+ },
+ {
+  "name": "필수 키 없음(kind)",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "open",
+   "screen": "ShopView",
+   "stage": "mockup",
+   "text": "x",
+   "component": "feed-row"
+  }
+ },
+ {
+  "name": "키 없음인데 selector·bbox 없음",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "open",
+   "screen": "ShopView",
+   "stage": "mockup",
+   "kind": "bug",
+   "text": "x",
+   "component": null
+  }
+ },
+ {
+  "name": "component 형식 위반",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "open",
+   "screen": "ShopView",
+   "stage": "mockup",
+   "kind": "bug",
+   "text": "x",
+   "component": "Feed Row"
+  }
+ },
+ {
+  "name": "Claude 의 close",
+  "by": "claude",
+  "expect": 400,
+  "event": {
+   "type": "close",
+   "id": "fb-0002"
+  }
+ },
+ {
+  "name": "Claude 의 reopen",
+  "by": "claude",
+  "expect": 400,
+  "event": {
+   "type": "reopen",
+   "id": "fb-0002",
+   "text": "x"
+  }
+ },
+ {
+  "name": "user 의 revision",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "revision",
+   "ids": [
+    "fb-0003"
+   ],
+   "claim": "cl-0003",
+   "files": [
+    "a"
+   ],
+   "summary": "x",
+   "shots": []
+  }
+ },
+ {
+  "name": "user 의 claim",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "claim",
+   "ids": [
+    "fb-0003"
+   ]
+  }
+ },
+ {
+  "name": "closed 를 claim",
+  "by": "claude",
+  "expect": 409,
+  "event": {
+   "type": "claim",
+   "ids": [
+    "fb-0001"
+   ]
+  }
+ },
+ {
+  "name": "open 을 reopen",
+  "by": "user",
+  "expect": 409,
+  "event": {
+   "type": "reopen",
+   "id": "fb-0003",
+   "text": "x"
+  }
+ },
+ {
+  "name": "claimed 아닌데 revision",
+  "by": "claude",
+  "expect": 409,
+  "event": {
+   "type": "revision",
+   "ids": [
+    "fb-0003"
+   ],
+   "claim": "cl-0003",
+   "files": [
+    "design/shop/wire.html"
+   ],
+   "summary": "x",
+   "shots": []
+  }
+ },
+ {
+  "name": "closed 를 close",
+  "by": "user",
+  "expect": 409,
+  "event": {
+   "type": "close",
+   "id": "fb-0004"
+  }
+ },
+ {
+  "name": "text 상한 초과",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "comment",
+   "id": "fb-0002",
+   "text": "가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가"
+  }
+ },
+ {
+  "name": "빈 text(공백만)",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "comment",
+   "id": "fb-0002",
+   "text": "   "
+  }
+ },
+ {
+  "name": "개정 L: 템플릿 인덱스에 없는 suggest slug",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "open",
+   "screen": "ShopView",
+   "stage": "mockup",
+   "version": "cp-r2",
+   "text": "x",
+   "component": "feed-row",
+   "state": "team",
+   "kind": "template",
+   "path": [
+    {
+     "area": "feed-row",
+     "template": "friendlistunit",
+     "variant": "shop-list",
+     "selector": "#canvas div.sheet-body > div.row:nth-of-type(1)"
+    },
+    {
+     "template": "thumbnailcharacterunit",
+     "variant": "ShopItemSlotUnit",
+     "selector": "#canvas div.sheet-body > div.row:nth-of-type(1) button.slot:nth-of-type(1)"
+    }
+   ],
+   "suggest": {
+    "template": "no-such-template"
+   }
+  }
+ },
+ {
+  "name": "개정 L: suggest 없는 kind=template",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "open",
+   "screen": "ShopView",
+   "stage": "mockup",
+   "version": "cp-r2",
+   "text": "x",
+   "component": "feed-row",
+   "state": "team",
+   "kind": "template",
+   "path": [
+    {
+     "area": "feed-row",
+     "template": "friendlistunit",
+     "variant": "shop-list",
+     "selector": "#canvas div.sheet-body > div.row:nth-of-type(1)"
+    },
+    {
+     "template": "thumbnailcharacterunit",
+     "variant": "ShopItemSlotUnit",
+     "selector": "#canvas div.sheet-body > div.row:nth-of-type(1) button.slot:nth-of-type(1)"
+    }
+   ]
+  }
+ },
+ {
+  "name": "개정 L: path 13단",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "open",
+   "screen": "ShopView",
+   "stage": "mockup",
+   "version": "cp-r2",
+   "text": "x",
+   "component": "feed-row",
+   "state": "team",
+   "kind": "visual",
+   "path": [
+    {
+     "selector": "div:nth-of-type(1)"
+    },
+    {
+     "selector": "div:nth-of-type(2)"
+    },
+    {
+     "selector": "div:nth-of-type(3)"
+    },
+    {
+     "selector": "div:nth-of-type(4)"
+    },
+    {
+     "selector": "div:nth-of-type(5)"
+    },
+    {
+     "selector": "div:nth-of-type(6)"
+    },
+    {
+     "selector": "div:nth-of-type(7)"
+    },
+    {
+     "selector": "div:nth-of-type(8)"
+    },
+    {
+     "selector": "div:nth-of-type(9)"
+    },
+    {
+     "selector": "div:nth-of-type(10)"
+    },
+    {
+     "selector": "div:nth-of-type(11)"
+    },
+    {
+     "selector": "div:nth-of-type(12)"
+    },
+    {
+     "area": "feed-row",
+     "selector": "div.row"
+    }
+   ]
+  }
+ },
+ {
+  "name": "개정 L: kind 가 template 이 아닌데 suggest",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "open",
+   "screen": "ShopView",
+   "stage": "mockup",
+   "version": "cp-r2",
+   "text": "x",
+   "component": "feed-row",
+   "state": "team",
+   "kind": "visual",
+   "suggest": {
+    "template": "thumbnailemptyunit"
+   }
+  }
+ },
+ {
+  "name": "개정 L: path 에 component 없음",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "open",
+   "screen": "ShopView",
+   "stage": "mockup",
+   "version": "cp-r2",
+   "text": "x",
+   "component": "feed-row",
+   "state": "team",
+   "kind": "visual",
+   "path": [
+    {
+     "template": "thumbnailcharacterunit",
+     "selector": "button.slot"
+    }
+   ]
+  }
+ },
+ {
+  "name": "개정 L: path 항목에 area·template·selector 모두 없음(스키마)",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "open",
+   "screen": "ShopView",
+   "stage": "mockup",
+   "version": "cp-r2",
+   "text": "x",
+   "component": "feed-row",
+   "state": "team",
+   "kind": "visual",
+   "path": [
+    {
+     "area": "feed-row",
+     "selector": "div.row"
+    },
+    {
+     "variant": "x"
+    }
+   ]
+  }
+ },
+ {
+  "name": "개정 A: author 상한 초과",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "comment",
+   "id": "fb-0002",
+   "text": "x",
+   "author": "가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가"
+  }
+ },
+ {
+  "name": "개정 A: author 공백만",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "comment",
+   "id": "fb-0002",
+   "text": "x",
+   "author": "   "
+  }
+ },
+ {
+  "name": "개정 A: Claude 의 author",
+  "by": "claude",
+  "expect": 400,
+  "event": {
+   "type": "comment",
+   "id": "fb-0002",
+   "text": "x",
+   "author": "누구"
+  }
+ },
+ {
+  "name": "개정 A: claim 에 author(스키마)",
+  "by": "claude",
+  "expect": 400,
+  "event": {
+   "type": "claim",
+   "ids": [
+    "fb-0003"
+   ],
+   "author": "누구"
+  }
+ },
+ {
+  "name": "개정 F: 첨부 path 형식 위반(스키마)",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "open",
+   "screen": "ShopView",
+   "stage": "mockup",
+   "kind": "visual",
+   "text": "x",
+   "component": "feed-row",
+   "attachments": [
+    {
+     "path": "../log.jsonl"
+    }
+   ]
+  }
+ },
+ {
+  "name": "개정 F: 첨부 7개(스키마 maxItems)",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "open",
+   "screen": "ShopView",
+   "stage": "mockup",
+   "kind": "visual",
+   "text": "x",
+   "component": "feed-row",
+   "attachments": [
+    {
+     "path": "feedback/attachments/00000000000000000000.png"
+    },
+    {
+     "path": "feedback/attachments/00000000000000000001.png"
+    },
+    {
+     "path": "feedback/attachments/00000000000000000002.png"
+    },
+    {
+     "path": "feedback/attachments/00000000000000000003.png"
+    },
+    {
+     "path": "feedback/attachments/00000000000000000004.png"
+    },
+    {
+     "path": "feedback/attachments/00000000000000000005.png"
+    },
+    {
+     "path": "feedback/attachments/00000000000000000006.png"
+    }
+   ]
+  }
+ },
+ {
+  "name": "개정 F: 첨부 항목에 모르는 키(스키마)",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "open",
+   "screen": "ShopView",
+   "stage": "mockup",
+   "kind": "visual",
+   "text": "x",
+   "component": "feed-row",
+   "attachments": [
+    {
+     "path": "feedback/attachments/bbbbbbbbbbbbbbbbbbbb.png",
+     "size": 1
+    }
+   ]
+  }
+ },
+ {
+  "name": "개정 F: close 에 attachments(스키마)",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "close",
+   "id": "fb-0003",
+   "attachments": [
+    {
+     "path": "feedback/attachments/bbbbbbbbbbbbbbbbbbbb.png"
+    }
+   ]
+  }
+ },
+ {
+  "name": "개정 F: by=claude 코멘트에 attachments",
+  "by": "claude",
+  "expect": 400,
+  "event": {
+   "type": "comment",
+   "id": "fb-0003",
+   "text": "x",
+   "attachments": [
+    {
+     "path": "feedback/attachments/bbbbbbbbbbbbbbbbbbbb.png"
+    }
+   ]
+  }
+ },
+ {
+  "name": "개정 F: 같은 path 중복",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "comment",
+   "id": "fb-0003",
+   "text": "x",
+   "attachments": [
+    {
+     "path": "feedback/attachments/bbbbbbbbbbbbbbbbbbbb.png"
+    },
+    {
+     "path": "feedback/attachments/bbbbbbbbbbbbbbbbbbbb.png"
+    }
+   ]
+  }
+ },
+ {
+  "name": "개정 F: name 121자",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "comment",
+   "id": "fb-0003",
+   "text": "x",
+   "attachments": [
+    {
+     "path": "feedback/attachments/bbbbbbbbbbbbbbbbbbbb.png",
+     "name": "가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가가"
+    }
+   ]
+  }
+ },
+ {
+  "name": "개정 F: 첨부 파일 없음(append 실존 검사)",
+  "by": "user",
+  "expect": 400,
+  "event": {
+   "type": "open",
+   "screen": "ShopView",
+   "stage": "mockup",
+   "kind": "visual",
+   "text": "x",
+   "component": "feed-row",
+   "attachments": [
+    {
+     "path": "feedback/attachments/bbbbbbbbbbbbbbbbbbbb.png",
+     "name": "참고.png"
+    }
+   ]
+  }
+ }
+]

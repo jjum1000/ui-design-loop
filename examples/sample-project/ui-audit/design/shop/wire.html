@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ShopView — wireframe r1</title>
+<style>
+  body { margin: 0; background: #e8e8e8; font: 20px/1.3 system-ui, sans-serif; color: #222; }
+  #canvas { position: relative; width: 1280px; height: 720px; margin: 0 auto; background: #f7f7f7; outline: 2px dashed #999; }
+  .box { position: absolute; border: 2px solid #555; background: #fff; display: flex; align-items: center; justify-content: center; box-sizing: border-box; }
+  .slot { position: static; width: 220px; height: 220px; flex-direction: column; gap: 8px; }
+  .grid { position: absolute; left: 60px; top: 220px; width: 760px; display: flex; flex-wrap: wrap; gap: 24px; }
+  .tab { position: static; width: 180px; height: 64px; }
+  .tabs { position: absolute; left: 60px; top: 130px; display: flex; gap: 12px; }
+  .sel { background: #333; color: #fff; }
+  .note { position: absolute; right: 24px; bottom: 16px; font-size: 14px; color: #777; }
+</style>
+</head>
+<body>
+<div id="canvas">
+  <div class="box" data-area="title-bar" data-template="titlebar" style="left:0;top:0;width:1280px;height:96px;">
+    <span data-area="header-title">SHOP</span>
+  </div>
+  <div class="box" data-area="currency" data-template="currencyunit" style="left:1000px;top:16px;width:240px;height:64px;">Coins 12,500</div>
+  <div class="tabs" data-area="tab-bar">
+    <div class="box tab sel" data-area="tab" data-idx="0" data-template="tabbutton">Featured</div>
+    <div class="box tab" data-area="tab" data-idx="1" data-template="tabbutton">Items</div>
+    <div class="box tab" data-area="tab" data-idx="2" data-template="tabbutton">Bundles</div>
+  </div>
+  <div class="grid" data-area="item-grid">
+    <div class="box slot" data-area="item-slot" data-idx="0" data-template="itemslotunit">Item A<br>x1</div>
+    <div class="box slot" data-area="item-slot" data-idx="1" data-template="itemslotunit">Item B<br>x5</div>
+    <div class="box slot" data-area="item-slot" data-idx="2" data-template="itemslotunit">Item C<br>x10</div>
+    <div class="box slot" data-area="item-slot" data-idx="3" data-template="itemslotunit">Item D<br>x1</div>
+    <div class="box slot" data-area="item-slot" data-idx="4" data-template="itemslotunit">Item E<br>x3</div>
+    <div class="box slot" data-area="item-slot" data-idx="5" data-template="itemslotunit">Item F<br>x2</div>
+  </div>
+  <div class="box" data-area="detail-panel" style="left:860px;top:130px;width:380px;height:440px;flex-direction:column;gap:12px;">
+    <span data-area="detail-name">Selected item</span>
+    <span data-area="detail-price">Price 1,200</span>
+  </div>
+  <div class="box sel" data-area="buy-button" data-template="button-primary" style="left:900px;top:600px;width:300px;height:96px;">BUY</div>
+  <div class="note">wireframe — layout and flow only, no styling</div>
+</div>
+</body>
+</html>

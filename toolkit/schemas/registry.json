@@ -1,0 +1,86 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "registry",
+ "type": "object",
+ "properties": {
+  "kind": {
+   "enum": [
+    "button",
+    "tab",
+    "toggle",
+    "popup",
+    "slot",
+    "gauge",
+    "currency",
+    "reddot",
+    "tooltip",
+    "toast",
+    "listcell",
+    "icon",
+    "textstyle",
+    "decor",
+    "other"
+   ]
+  },
+  "groups": {
+   "type": "object",
+   "additionalProperties": {
+    "type": "object",
+    "properties": {
+     "sigKey": {
+      "type": "string"
+     },
+     "createdAt": {
+      "type": "string"
+     },
+     "createdBatch": {
+      "type": "string",
+      "pattern": "^b[0-9]+$"
+     }
+    },
+    "required": [
+     "sigKey",
+     "createdAt",
+     "createdBatch"
+    ]
+   }
+  },
+  "aliases": {
+   "type": "object",
+   "additionalProperties": {
+    "type": "string"
+   }
+  },
+  "retired": {
+   "type": "object",
+   "additionalProperties": {
+    "type": "object",
+    "properties": {
+     "at": {
+      "type": "string"
+     },
+     "reason": {
+      "type": "string"
+     },
+     "successors": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    },
+    "required": [
+     "at",
+     "reason",
+     "successors"
+    ]
+   }
+  }
+ },
+ "required": [
+  "kind",
+  "groups",
+  "aliases",
+  "retired"
+ ]
+}

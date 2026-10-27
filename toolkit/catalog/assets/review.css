@@ -1,0 +1,331 @@
+/* 리뷰 뷰어(catalog/review.html) — 손으로 관리하는 원본. catalog_assets.py 가 덮어쓰지 않는다.
+   explorer.css 의 변수(--bg·--panel·--line·--acc·--cyan·--ok·--bad·--warn·--disp·--mono)를 그대로 써서 '라이트 테이블' 톤을 잇는다. */
+/* 세로 예산(N5): 셸 위 바 54 + 탐색 경로 28 + main 위아래 12 = 94px. 이 페이지에서만 경로 줄 위 여백을 줄인다(review.css 는 이 페이지 전용) */
+main.wide{padding:4px 16px 8px}
+main.wide>h1{display:none}
+.crumbs{padding-top:4px}
+.rv{display:flex;flex-direction:column;height:calc(100vh - 94px);min-height:480px}
+.rv-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:5px 8px;background:var(--panel);border:1px solid var(--line);border-bottom:0}
+.rv-name{display:flex;align-items:baseline;gap:8px;min-width:0}
+.rv-name b{font:700 21px/1 var(--disp);letter-spacing:.5px;text-transform:uppercase;overflow-wrap:anywhere}
+.rv-name .mut{font-size:12px}
+.rv-bar .seg button{padding:6px 10px;font-size:12px}
+.rv-tabs{display:flex;flex-wrap:wrap;gap:6px 10px}
+.rv-tab{display:flex;align-items:center;gap:6px;padding:4px 11px 2px;text-decoration:none;color:var(--mut);border:1px solid var(--line);
+  background:var(--bg2);transform:skewX(-14deg)}
+.rv-tab>span{display:inline-block;transform:skewX(14deg)}
+.rv-tab .lb{font:700 14px/1 var(--disp);letter-spacing:.5px;text-transform:uppercase}
+.rv-tab .v{font:11px var(--mono)}
+.rv-tab .cnt{font:11px var(--mono);padding:0 5px;background:var(--panel2);color:var(--fg)}
+.rv-tab:hover{border-color:var(--acc);color:var(--fg)}
+.rv-tab.on{background:var(--acc);color:var(--ink);border-color:var(--acc)}
+.rv-tab.on .cnt{background:var(--ink);color:var(--acc)}
+.rv-tabwrap{display:inline-flex;align-items:center;gap:4px}
+.rv-variant{font:12px var(--body);max-width:220px;padding:4px 6px;background:var(--bg2);color:var(--fg);border:1px solid var(--line);cursor:pointer}
+.rv-tabwrap.on .rv-variant{border-color:var(--acc)}
+.rv-variant:focus{outline:2px solid var(--acc);outline-offset:-1px}
+.rv-reflink{display:inline-block;margin-top:6px}
+.rv-states{display:flex;flex-wrap:wrap;gap:4px}
+.rv-state{font:12px var(--body);padding:5px 9px;background:var(--bg2);color:var(--fg);border:1px solid var(--line);cursor:pointer}
+.rv-state:hover:not(:disabled){border-color:var(--acc)}
+.rv-state.on{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.rv-state:disabled,.rv-mode button:disabled{opacity:.45;cursor:not-allowed}
+.rv-mode{margin-left:auto}
+.rv-paneltoggle{display:none;font:700 13px/1 var(--disp);letter-spacing:.6px;text-transform:uppercase;padding:7px 12px;background:var(--acc);color:var(--ink);border:0;cursor:pointer}
+/* 바를 한 줄로(1440 까지): 앱 이름 → (1440 미만) 탭의 상태 글자를 숨기고 간격을 줄인다. 상태는 시안 풀다운 항목에 그대로 있다 */
+@media (max-width:1699.98px){.rv-name .mut{display:none}}
+@media (max-width:1439.98px){
+  .rv-name b{font-size:18px}
+  .rv-tab .stt{display:none}
+  .rv-tab{padding:4px 9px 2px}
+  .rv-variant{max-width:150px}
+  .rv-state{padding:5px 7px}
+  .rv-bar .seg button{padding:6px 7px}
+  .rv-bar{gap:6px 8px}
+}
+.rv-msg{padding:6px 10px;font-size:12px;border:1px solid var(--line);border-bottom:0;background:var(--panel2);color:var(--fg)}
+.rv-msg.bad{color:var(--bad)}.rv-msg.warn{color:var(--warn)}.rv-msg.ok{color:var(--ok)}
+/* 피드백 패널 폭: 1920 에서 420, 좁아지면 340 까지(산출물 폭을 먼저 지킨다) */
+.rv-body{display:grid;grid-template-columns:minmax(0,1fr) clamp(340px,22vw,420px);flex:1;min-height:0;border:1px solid var(--line)}
+/* ---------- 산출물 무대: viewport(스크롤) > sizer(스케일 뒤 크기) > scaler(스케일 전 1920 문서 좌표) */
+.rv-viewport{overflow:auto;min-width:0;min-height:0;background:var(--bg2)}
+.rv-sizer{position:relative;overflow:hidden;margin:0 auto}
+.rv-scaler{position:absolute;left:0;top:0;transform-origin:0 0}
+.rv-scaler iframe{display:block;border:0;background:#fff}
+.rv-overlay{position:absolute;inset:0;cursor:crosshair}
+.rv-overlay.interact,.rv-overlay.noaccess{pointer-events:none}
+.rv-overlay.interact .rv-hover,.rv-overlay.noaccess .rv-hover{display:none}
+.rv-hl{position:absolute;pointer-events:none;box-sizing:border-box}
+.rv-overlay{--inv:1}
+.rv-hover{border:calc(2px * var(--inv)) dashed var(--acc);background:rgba(255,210,31,.12)}
+.rv-hover.nokey{border-color:var(--warn);background:rgba(233,180,76,.10)}
+.rv-sel{border:calc(3px * var(--inv)) solid var(--acc);box-shadow:0 0 0 calc(2px * var(--inv)) var(--ink),0 0 calc(18px * var(--inv)) rgba(255,210,31,.55)}
+.rv-sel.rv-ghost{border-style:dotted;box-shadow:none}
+.rv-par{border:calc(2px * var(--inv)) dashed var(--cyan)}
+.rv-kid{border:calc(1px * var(--inv)) solid rgba(255,210,31,.7)}
+.rv-hl>span{position:absolute;left:0;bottom:100%;white-space:nowrap;padding:0 calc(7px * var(--inv));
+  font:700 calc(14px * var(--inv))/calc(20px * var(--inv)) var(--disp);letter-spacing:.4px;
+  background:var(--ink);color:var(--acc);border:calc(1px * var(--inv)) solid var(--acc)}
+.rv-hl.in>span{bottom:auto;top:0}
+.rv-hover.nokey>span{color:var(--warn);border-color:var(--warn)}
+.rv-index{list-style:none;margin:0;padding:18px;display:flex;flex-direction:column;gap:10px}
+.rv-index li{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.rv-index a.tag{text-decoration:none}.rv-index a.tag:hover{border-color:var(--acc);color:var(--fg)}
+.rv-noscreen .rv-panel,.rv-noscreen .rv-mode,.rv-noscreen .rv-zoom,.rv-noscreen .rv-view,.rv-noscreen .rv-paneltoggle,.rv-noscreen .rv-docktoggle,.rv-noscreen .rv-dock{display:none!important}
+.rv-tab .stt{font:10px var(--body);opacity:.8}
+.rv-noscreen .rv-body{grid-template-columns:1fr}
+/* ---------- 패널 */
+.rv-panel{border-left:1px solid var(--line);background:var(--panel);overflow-y:auto;min-height:0}
+.rv-guide{margin:10px;padding:10px 12px;border-left:3px solid var(--acc);background:var(--panel2);font-size:12px;line-height:1.6}
+.rv-guide code{font:11px var(--mono);overflow-wrap:anywhere;color:var(--acc)}
+.rv-cmd{margin-top:4px}
+.rv-sec{padding:10px 12px;border-bottom:1px solid var(--line)}
+.rv-sec h3{margin:0 0 8px;font:700 15px/1 var(--disp);letter-spacing:.6px;text-transform:uppercase;display:flex;gap:8px;align-items:center}
+.rv-sec h3 .n{font:11px var(--mono);color:var(--mut);text-transform:none}
+.rv-target{font-size:12px;display:flex;flex-direction:column;gap:4px}
+.rv-fbnote{margin-top:6px;padding:6px 8px;border-left:3px solid var(--warn);background:var(--panel2);color:var(--fg);font-size:12px}
+.rv-fblink{color:var(--acc);font-weight:700}
+.rv-tline{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.rv-key{font:12px var(--mono);color:var(--acc);font-weight:700}
+.rv-nokey{font:11px var(--mono);padding:0 6px;border:1px dashed var(--warn);color:var(--warn);white-space:nowrap}
+.rv-selector{overflow-wrap:anywhere;font-size:11px}
+.rv-x{margin-left:auto;font:11px var(--body);background:none;border:1px solid var(--line);color:var(--mut);cursor:pointer;padding:1px 7px}
+.rv-x:hover{color:var(--fg);border-color:var(--acc)}
+.rv-form{display:flex;flex-direction:column;gap:6px}
+.rv-kinds{display:flex;flex-wrap:wrap;gap:4px}
+.rv-kinds button{font:12px var(--body);padding:4px 10px;background:var(--bg2);color:var(--mut);border:1px solid var(--line);cursor:pointer}
+.rv-kinds button.on{background:var(--acc);color:var(--ink);border-color:var(--acc)}
+.rv textarea{width:100%;resize:vertical;font:13px/1.5 var(--body);padding:6px 8px;background:var(--bg2);color:var(--fg);border:1px solid var(--line)}
+.rv textarea:focus{outline:2px solid var(--acc);outline-offset:-1px}
+.rv-formrow{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.rv-author{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mut)}
+.rv-author input{flex:1;min-width:0;font:13px var(--body);padding:4px 8px;background:var(--bg2);color:var(--fg);border:1px solid var(--line)}
+.rv-author input:focus{outline:2px solid var(--acc);outline-offset:-1px}
+.rv-formrow .mut{margin-right:auto;font-size:11px;min-width:0;overflow-wrap:anywhere}
+#rv-submit,.rv-go{font:700 14px/1 var(--disp);letter-spacing:.6px;text-transform:uppercase;padding:7px 14px;background:var(--acc);color:var(--ink);border:0;cursor:pointer}
+#rv-submit:disabled,.rv-go:disabled{opacity:.4;cursor:not-allowed}
+.rv-hint,.rv-empty{font-size:12px;margin:2px 0 6px}
+/* 컴포넌트 목록 */
+.rv-comps{display:flex;flex-direction:column;gap:8px}
+.rv-cgroup{display:flex;flex-direction:column;gap:2px}
+.rv-ghead{font:11px var(--mono);color:var(--mut);margin-bottom:2px}
+.rv-comp{display:flex;align-items:center;gap:6px;width:100%;text-align:left;padding:4px 8px;background:var(--bg2);border:1px solid transparent;color:var(--fg);cursor:pointer;font:12px var(--body);min-width:0}
+.rv-comp:hover{border-color:var(--line)}
+.rv-comp.on{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 14%,var(--bg2))}
+.rv-ell{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;font:11px var(--mono)}
+.rv-cnts{display:flex;gap:3px;margin-left:auto}
+.rv-c{font:11px/16px var(--mono);min-width:20px;text-align:center;padding:0 4px;border:1px solid var(--line);color:var(--mut)}
+.rv-c.open{background:var(--acc);color:var(--ink);border-color:var(--acc)}
+.rv-c.fixed{color:var(--ok);border-color:var(--ok)}
+/* 스레드 */
+.rv-item{display:block;margin:0 0 10px;padding:8px 10px;background:var(--bg2);border:1px solid var(--line);border-left:3px solid var(--line)}
+.rv-item[data-status=open]{border-left-color:var(--acc)}.rv-item[data-status=reopened]{border-left-color:var(--bad)}
+.rv-item[data-status=claimed]{border-left-color:var(--cyan)}.rv-item[data-status=fixed]{border-left-color:var(--ok)}
+.rv-item.focus{box-shadow:0 0 0 2px var(--acc)}
+.rv-ihead{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12px}
+.rv-id{font:12px var(--mono)}
+.rv-meta{font:11px var(--mono);overflow-wrap:anywhere}
+.rv-badge{font:700 11px/16px var(--body);padding:0 6px;border:1px solid var(--line);white-space:nowrap}
+.rv-badge.st-open{background:var(--acc);color:var(--ink);border-color:var(--acc)}
+.rv-badge.st-reopened{color:var(--bad);border-color:var(--bad)}
+.rv-badge.st-claimed{color:var(--cyan);border-color:var(--cyan)}
+.rv-badge.st-fixed{color:var(--ok);border-color:var(--ok)}
+.rv-badge.st-closed{color:var(--mut)}
+.rv-hist{list-style:none;margin:8px 0 0;padding:0 0 0 12px;border-left:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.ev{position:relative;font-size:12px}
+.ev::before{content:"";position:absolute;left:-17px;top:5px;width:8px;height:8px;background:var(--line)}
+.ev-open::before{background:var(--acc)}.ev-revision::before{background:var(--ok)}.ev-reopen::before{background:var(--bad)}
+.ev-claim::before,.ev-release::before{background:var(--cyan)}.ev-close::before{background:var(--mut)}
+.evh{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap}
+.evh b{font:700 13px/1 var(--disp);letter-spacing:.4px;text-transform:uppercase}
+.evh .by{font:11px var(--mono);color:var(--mut)}.evh .by-claude{color:var(--cyan)}
+.evh time{font:11px var(--mono);color:var(--mut);margin-left:auto}
+.rv-text{margin:3px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}
+.ev p{margin:3px 0 0}
+.rv-rev{display:flex;flex-direction:column;gap:4px;margin-top:3px}
+.rv-revmeta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:11px}
+.rv-files{margin:0;padding-left:16px;font-size:11px;color:var(--mut);overflow-wrap:anywhere}
+.rv-difflinks{display:flex;gap:10px;align-items:center}
+.rv-difflink{font-size:12px}
+.rv-diff{max-height:320px;overflow:auto;margin:0;padding:6px 8px;background:var(--ink);color:#eeeadf;font:11px/1.45 var(--mono);white-space:pre}
+.rv-shots{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.rv-shot{margin:0;display:flex;flex-direction:column;gap:2px;min-width:0}
+.rv-shot img{display:block;max-width:100%;max-height:160px;object-fit:contain;background:var(--chk2);border:1px solid var(--line)}
+.rv-shot figcaption{font:11px var(--mono);color:var(--mut)}
+.rv-noshot{font-size:11px}
+.rv-actions{display:flex;gap:6px;margin-top:8px}
+.rv-actions button{font:12px var(--body);padding:3px 10px;background:var(--panel);color:var(--fg);border:1px solid var(--line);cursor:pointer}
+.rv-actions button:hover{border-color:var(--acc)}
+.rv-inline{margin-top:6px;display:flex;flex-direction:column;gap:6px}
+.rv-link{background:none;border:0;padding:0;color:var(--mut);text-decoration:underline;text-decoration-color:var(--acc);cursor:pointer;font:12px var(--body)}
+.rv-link:hover{color:var(--acc)}
+/* 다른 단계(참고): 회색·읽기 전용 */
+.rv-refsec{opacity:.62;filter:grayscale(1)}
+.rv-refitem>summary{cursor:pointer;list-style:none}
+.rv-refitem>summary::-webkit-details-marker{display:none}
+.rv-snip{flex-basis:100%;color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* ---------- 교체 제안 칩(작성 폼) */
+.rv-suggest{display:flex;align-items:center;gap:6px;padding:4px 8px;border:1px dashed var(--acc);background:color-mix(in srgb,var(--acc) 10%,var(--bg2));font-size:12px}
+.rv-suggest .lb{min-width:0;overflow-wrap:anywhere;font-family:var(--mono)}
+.rv-suggest.hidden{display:none}
+/* ---------- 첨부 이미지(개정 F): 작성 칩 · 이력 썸네일 */
+.rv-att{display:flex;flex-direction:column;gap:4px}
+.rv-att-add{align-self:flex-start;font:12px var(--body);padding:3px 10px;background:var(--bg2);color:var(--fg);border:1px dashed var(--line);cursor:pointer}
+.rv-att-add:hover:not(:disabled){border-color:var(--acc)}
+.rv-att-add:disabled{opacity:.4;cursor:not-allowed}
+.rv-att-chips{display:flex;flex-wrap:wrap;gap:4px}
+.rv-att-chips:empty{display:none}
+.rv-att-chip{display:flex;align-items:center;gap:4px;max-width:100%;padding:2px 4px;border:1px solid var(--line);background:var(--bg2);font-size:11px}
+.rv-att-chip img{width:32px;height:32px;object-fit:contain;background:var(--chk2)}
+.rv-att-chip .nm{min-width:0;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rv-att-chip .rv-x{margin-left:2px}
+.rv-dropping{outline:2px dashed var(--acc);outline-offset:2px;background:color-mix(in srgb,var(--acc) 8%,transparent)}
+.rv-atts{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:6px;margin-top:4px}
+.rv-att-item{display:flex;flex-direction:column;gap:2px;min-width:0;color:var(--mut);text-decoration:none}
+.rv-att-item img{display:block;width:100%;height:88px;object-fit:contain;background:var(--chk2);border:1px solid var(--line)}
+.rv-att-item:hover img{border-color:var(--acc)}
+.rv-att-item .nm{font:11px var(--mono);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rv-att-item.missing .nm{white-space:normal;overflow-wrap:anywhere}
+.rv-tpath{font-size:11px;overflow-wrap:anywhere}
+.rv-sub{font-size:11px;color:var(--fg)}
+.rv-docktoggle{font:12px var(--body);padding:5px 10px;background:var(--bg2);color:var(--fg);border:1px solid var(--line);cursor:pointer}
+.rv-docktoggle[aria-expanded=true]{border-color:var(--acc)}
+/* ---------- 하단 도크(7.5): ① 트리 | ② 컴포넌트 | ③ 라이브러리. 높이 = --dock-h(손잡이로 조절)
+   N5: 기본 높이 = 뷰포트 34%(280~400px) — 1080 에서 367, 900 에서 306, 800 에서 280. ② 가 가장 넓고, 확대 무대가 칸 높이를 다 쓴다.
+   도크 안 글자는 12px 아래로 내리지 않는다(위 explorer 의 11px 태그·10px 보조 글자를 이 안에서만 올린다). */
+.rv-dock{--rail:216px;flex:0 0 var(--dock-h,clamp(280px,34vh,400px));display:flex;flex-direction:column;min-height:0;position:relative;
+  background:var(--panel);border:1px solid var(--line);border-top:2px solid var(--acc)}
+.rv-dock.hidden{display:none}
+.rv-dock.folded{flex-basis:auto}
+.rv-dock.folded .rv-dock-cols{display:none}
+.rv-dock-grip{position:absolute;left:0;right:0;top:-7px;height:12px;cursor:ns-resize;z-index:5;touch-action:none}
+.rv-dock-grip::after{content:"";position:absolute;left:50%;top:3px;width:44px;height:5px;margin-left:-22px;background:var(--line);border:1px solid var(--panel);
+  transition:background-color .15s ease,width .15s ease,margin-left .15s ease}
+.rv-dock-grip:hover::after,.rv-dock-grip:active::after{background:var(--acc);width:72px;margin-left:-36px}
+.rv-dock.folded .rv-dock-grip{display:none}
+.rv-dock-head{display:flex;align-items:center;gap:8px;padding:4px 10px;border-bottom:1px solid var(--line);min-width:0}
+.rv-dock-crumb{display:flex;flex-wrap:wrap;align-items:center;gap:2px 4px;min-width:0;flex:1}
+.rv-crumb{font:12px var(--mono);background:none;border:0;padding:2px 4px;color:var(--mut);cursor:pointer;overflow-wrap:anywhere;text-align:left}
+.rv-crumb:hover{color:var(--fg)}.rv-crumb.on{color:var(--acc);font-weight:700}
+.rv-crumb.keyless{color:var(--warn);cursor:default}
+.rv-dock-crumb .sep,.rv-lib-crumb .sep{color:var(--mut);font-size:12px}
+.rv-dock-note{font-size:12px;color:var(--warn);white-space:nowrap}
+.rv-dock-keys{font-size:12px;white-space:nowrap}
+.rv-dock .tag{font-size:12px}
+.rv-dock .rv-x{font-size:12px}
+.rv-dock-cols{display:grid;grid-template-columns:minmax(220px,.7fr) minmax(0,1.9fr) minmax(280px,1.1fr);flex:1;min-height:0}
+.rv-dock-col{min-width:0;min-height:0;overflow:auto;padding:6px 10px 8px;border-left:1px solid var(--line)}
+.rv-dock-col:first-child{border-left:0}
+.rv-dock-col h4,.rv-dock-lib>h4{margin:0 0 5px;font:700 13px/16px var(--disp);letter-spacing:.5px;text-transform:uppercase;color:var(--mut)}
+/* 들여쓰기 안내선: 깊이마다 16px(트리)·14px(노드 트리), 줄 하나 */
+.rv-node,.rv-lnode{--step:16px;background-image:repeating-linear-gradient(to right,transparent 0 7px,var(--line) 7px 8px,transparent 8px var(--step));
+  background-size:calc(var(--d,0) * var(--step)) 100%;background-repeat:no-repeat;background-position:4px 0}
+/* ① 트리 */
+.rv-tree{display:flex;flex-direction:column}
+.rv-node{display:flex;align-items:center;gap:6px;min-width:0;min-height:24px;padding:1px 6px 1px calc(4px + var(--d,0) * var(--step));
+  font:13px var(--body);cursor:pointer;border:1px solid transparent}
+.rv-node[hidden]{display:none}
+.rv-node:hover{background-color:var(--bg2)}
+.rv-node.path>.rv-nl{color:var(--fg);font-weight:700}
+.rv-node.on{border-color:var(--acc);background-color:color-mix(in srgb,var(--acc) 14%,var(--bg2))}
+.rv-node:focus{outline:2px solid var(--acc);outline-offset:-2px}
+.rv-node.keyless .rv-nl{color:var(--warn)}
+.rv-node.group>.rv-nl{font-style:italic}
+.rv-tw{flex:0 0 16px;width:16px;padding:0;background:none;border:0;color:var(--mut);cursor:pointer;font:12px var(--mono)}
+.rv-tw0{flex:0 0 16px}
+.rv-nl{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:var(--mono)}
+.rv-nl.k{color:var(--acc)}
+.rv-nl.nw{color:var(--mut)}
+.rv-nv{font-size:12px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rv-node .tag{flex:0 0 auto}
+.rv-node .rv-cnts{margin-left:auto}
+.rv-dock .rv-c{font-size:12px}
+/* ② 컴포넌트: [확대 무대 | 오른쪽 레일(속성표·비교 띠)]. 무대가 칸 높이를 채우고, 레일은 따로 스크롤한다 → 속성표가 확대 뷰를 가리지 않는다 */
+.rv-dock-view{display:grid;grid-template-columns:minmax(0,1fr) var(--rail);grid-template-rows:auto minmax(0,1fr);column-gap:10px;overflow:hidden}
+.rv-dock-view>h4{grid-column:1/-1}
+.rv-zv{min-width:0;min-height:0;display:flex}
+.rv-zoom-stage{position:relative;flex:1;min-height:120px;overflow:hidden;border:1px solid var(--line);
+  background-color:var(--chk2);background-image:linear-gradient(45deg,var(--chk1) 25%,transparent 25%,transparent 75%,var(--chk1) 75%),
+  linear-gradient(45deg,var(--chk1) 25%,transparent 25%,transparent 75%,var(--chk1) 75%);background-size:16px 16px;background-position:0 0,8px 8px}
+.rv-zoom-stage iframe{position:absolute;left:0;top:0;border:0;transform-origin:0 0;pointer-events:none;background:#fff}
+.rv-zoom-stage iframe.hidden{display:none}
+/* crop 폴백: 크롭(긴 변 ≤ 320)도 무대에 맞춰 키운다 */
+.rv-zoom-stage img{position:absolute;inset:6px;width:calc(100% - 12px);height:calc(100% - 12px);object-fit:contain}
+.rv-zoom-stage img.hidden{display:none}
+.rv-zoom-none{display:block;padding:12px;font-size:12px}
+.rv-zrail{min-width:0;min-height:0;overflow-y:auto;overflow-x:hidden;padding-right:2px}
+.rv-zh{margin:10px 0 5px;font:700 12px/1 var(--disp);letter-spacing:.4px;text-transform:uppercase;color:var(--mut)}
+/* 속성표: explorer 의 전역 table(블록·끈적 머리·nowrap)을 되돌린다 */
+.rv-dock table.rv-props{display:table;width:100%;margin:0;border:0;background:none;border-collapse:collapse;table-layout:fixed;font-size:12px}
+.rv-dock .rv-props th,.rv-dock .rv-props td{position:static;white-space:normal;padding:3px 0;border-bottom:1px solid var(--line);vertical-align:top;background:none}
+.rv-dock .rv-props th{width:64px;padding-right:6px;font:12px/1.35 var(--body);letter-spacing:0;text-transform:none;color:var(--mut)}
+.rv-dock .rv-props td{font:12px/1.35 var(--mono);overflow-wrap:anywhere}
+.rv-strip{display:flex;flex-direction:column;gap:6px;padding-bottom:4px}
+.rv-strip-item{display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--mut);border:1px solid var(--line);padding:4px;background:var(--bg2)}
+.rv-strip-item:hover{border-color:var(--acc);color:var(--fg)}
+.rv-strip-item:focus-visible{outline:2px solid var(--acc);outline-offset:-2px}
+.rv-strip-item img{display:block;width:100%;height:84px;object-fit:contain;background-color:var(--chk2)}
+.rv-strip-item .cap{font:12px var(--mono);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rv-strip-none{font-size:12px;height:84px;display:flex;align-items:center;justify-content:center}
+/* ③ 라이브러리 */
+.rv-lib-use{font-size:12px;padding:3px 8px;margin-bottom:6px;border-left:3px solid var(--cyan);background:var(--panel2)}
+.rv-lib-crumb{display:flex;flex-wrap:wrap;align-items:center;gap:2px 4px;margin-bottom:6px}
+.rv-lcrumb{font:12px var(--mono);background:none;border:0;padding:1px 3px;color:var(--mut);cursor:pointer}
+.rv-lcrumb.on{color:var(--acc);font-weight:700}
+.rv-lib-crumb .rv-x{margin-left:8px}
+/* 카드: 썸네일 띠(원본 해상도까지, 높이 ≤ 150) → 이름·수치 → 노드 → 키트·규칙·대안 → 쓰는 화면(맨 아래, order) */
+.rv-lcard{display:flex;flex-direction:column}
+.rv-lcard h5{margin:10px 0 4px;font:700 12px/1 var(--disp);letter-spacing:.4px;text-transform:uppercase;color:var(--mut)}
+.rv-lhead{display:flex;flex-direction:column;gap:6px;min-width:0}
+.rv-lthumb{display:block;align-self:stretch;max-width:100%;height:auto;max-height:150px;object-fit:contain;padding:6px;border:1px solid var(--line);
+  background-color:var(--chk2);background-image:linear-gradient(45deg,var(--chk1) 25%,transparent 25%,transparent 75%,var(--chk1) 75%),
+  linear-gradient(45deg,var(--chk1) 25%,transparent 25%,transparent 75%,var(--chk1) 75%);background-size:16px 16px;background-position:0 0,8px 8px}
+.rv-linfo{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px;min-width:0;font-size:12px}
+.rv-lname{overflow-wrap:anywhere;font-size:14px}
+.rv-linfo code{font:12px var(--mono);color:var(--acc)}
+.rv-linfo .mut{flex-basis:100%}
+.rv-lscreens{order:10;display:flex;flex-wrap:wrap;gap:3px;margin-top:10px;font-size:12px}
+.rv-lscreens a.tag{text-decoration:none}
+.rv-lnodes{max-height:260px;overflow:auto;border:1px solid var(--line);background-color:var(--bg2)}
+.rv-lnode{--step:14px;display:flex;align-items:center;gap:6px;min-height:20px;padding:1px 6px 1px calc(4px + var(--d,0) * var(--step));font:12px var(--mono);min-width:0}
+.rv-lnode .nm{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rv-lnode .sz{font-size:12px;white-space:nowrap;opacity:.8}
+.rv-lnode.off{opacity:.55}
+.rv-lnode.match{background-color:color-mix(in srgb,var(--acc) 22%,var(--bg2));outline:1px solid var(--acc)}
+.rv-drill{margin-left:auto;font:12px var(--mono);background:none;border:1px solid var(--line);color:var(--cyan);cursor:pointer;padding:0 5px;white-space:nowrap}
+.rv-drill:hover{border-color:var(--acc)}
+.rv-lmatch{font-size:12px;margin-bottom:3px}
+.rv-lkrow{font-size:12px;padding:3px 0;border-bottom:1px dotted var(--line);overflow-wrap:anywhere}
+.rv-lkrow code{font:12px var(--mono);color:var(--acc)}
+.rv-lrules{margin:0;padding-left:14px;font-size:12px;overflow-wrap:anywhere}
+.rv-lrules .mono{font-size:12px}
+.rv-lalts{display:flex;flex-direction:column;gap:4px}
+.rv-alt{display:flex;align-items:center;gap:6px;font-size:12px;min-width:0}
+.rv-alt code{font:12px var(--mono)}
+.rv-alt .mut{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rv-alt .rv-suggest{margin-left:auto;font:12px var(--body);padding:3px 9px;background:var(--acc);color:var(--ink);border:0;cursor:pointer;white-space:nowrap;
+  transition:transform .12s ease-out}
+.rv-alt .rv-suggest:active:not(:disabled){transform:scale(.97)}
+.rv-alt .rv-suggest:disabled{opacity:.4;cursor:not-allowed}
+.rv-lnew{font-size:12px}
+/* 중간 폭(1280~1599): 레일·①·③ 을 좁혀 ② 무대 폭을 지킨다 */
+@media (max-width:1599.98px){.rv-dock{--rail:160px}.rv-dock-cols{grid-template-columns:minmax(200px,.7fr) minmax(0,1.9fr) minmax(260px,1fr)}.rv-strip-item img{height:72px}}
+/* ---------- 좁은 화면: 패널을 접고 토글로 연다(문서 가로 스크롤 없음) · 도크 ①②③ 세로 쌓기 */
+@media (max-width:1279.98px){
+  .rv-paneltoggle{display:inline-block}
+  .rv-body{grid-template-columns:minmax(0,1fr)}
+  .rv-panel{display:none}
+  .rv.panel-open .rv-panel{display:block;position:fixed;right:0;top:54px;bottom:0;width:min(420px,100vw);z-index:60;box-shadow:var(--shadow);border-left:2px solid var(--acc)}
+  .rv-mode{margin-left:0}
+  .rv-dock-cols{grid-template-columns:minmax(0,1fr);overflow-y:auto;overflow-x:hidden}
+  .rv-dock-col{overflow:visible;border-left:0;border-top:1px solid var(--line)}
+  .rv-dock-col:first-child{border-top:0}
+  .rv-dock-view{grid-template-columns:minmax(0,1fr);grid-template-rows:auto}
+  .rv-zoom-stage{flex:0 0 auto;height:260px;width:100%}
+  .rv-zrail{overflow:visible}
+  .rv-strip{flex-direction:row;overflow-x:auto}
+  .rv-strip-item{flex:0 0 168px}
+  .rv-dock-keys{display:none}
+}
+@media (prefers-reduced-motion:reduce){.rv-dock-grip::after,.rv-alt .rv-suggest{transition:none}}
+.rv-view button.fallback{opacity:.55;text-decoration:line-through}

@@ -1,0 +1,20 @@
+{
+  "name": "Sample uGUI project",
+  "unity_root": "..",
+  "unity_version": "6000.3.18f1",
+  "render_pipeline": "Built-in",
+  "ui_system": "uGUI",
+  "ui_packages": ["com.unity.ugui 2.0.0"],
+  "ui_root": "Assets/SampleUI/UI",
+  "reference_resolution": {"width": 1920, "height": 1080},
+  "platforms": ["mobile"],
+  "screenshot_ratios": ["16x9"],
+  "touch_min_px": 100,
+  "guid_index_roots": ["Assets", "Packages"],
+  "guid_index_exts": [".cs", ".dll", ".png", ".asset", ".prefab", ".mat", ".ttf", ".otf", ".spriteatlas", ".shader"],
+  "ui_roots": ["Assets/SampleUI/UI"],
+  "common_dirs": ["Assets/SampleUI/UI/Common/"],
+  "exclude": [],
+  "editor_build_tool_dir": "Assets/SampleUI/Editor",
+  "bridge_dir": "Packages/com.ui-design-loop.bridge"
+}

@@ -1,0 +1,27 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "template-ext",
+ "type": "object",
+ "properties": {
+  "updatedAt": {
+   "type": "string"
+  },
+  "what": {
+   "enum": [
+    "overrides",
+    "lookalikes"
+   ]
+  },
+  "templates": {
+   "type": "object"
+  },
+  "stats": {
+   "type": "object"
+  }
+ },
+ "required": [
+  "updatedAt",
+  "what",
+  "templates"
+ ]
+}

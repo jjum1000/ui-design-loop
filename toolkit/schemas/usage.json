@@ -1,0 +1,81 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "usage",
+ "type": "object",
+ "properties": {
+  "updatedAt": {
+   "type": "string"
+  },
+  "edges": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "template": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "templateGuid": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "kind": {
+      "enum": [
+       "nested",
+       "variant",
+       "scene",
+       "field",
+       "code-ui",
+       "code-loader",
+       "code-wrap",
+       "code-local"
+      ]
+     },
+     "user": {
+      "type": "string"
+     },
+     "userType": {
+      "enum": [
+       "prefab",
+       "scene",
+       "code"
+      ]
+     },
+     "path": {
+      "type": "string"
+     },
+     "overrides": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    },
+    "required": [
+     "template",
+     "templateGuid",
+     "kind",
+     "user",
+     "userType",
+     "path",
+     "overrides"
+    ]
+   }
+  },
+  "counts": {
+   "type": "object",
+   "additionalProperties": {
+    "type": "integer"
+   }
+  }
+ },
+ "required": [
+  "updatedAt",
+  "edges",
+  "counts"
+ ]
+}

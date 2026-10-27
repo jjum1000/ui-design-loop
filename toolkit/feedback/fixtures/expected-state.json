@@ -1,0 +1,621 @@
+{
+ "counts": {
+  "ShopBuyPopup": {
+   "wire": {
+    "claimed": 0,
+    "closed": 0,
+    "fixed": 0,
+    "open": 0,
+    "reopened": 0
+   }
+  },
+  "ShopView": {
+   "mockup": {
+    "claimed": 0,
+    "closed": 2,
+    "fixed": 1,
+    "open": 3,
+    "reopened": 0
+   },
+   "wire": {
+    "claimed": 0,
+    "closed": 0,
+    "fixed": 0,
+    "open": 1,
+    "reopened": 0
+   }
+  }
+ },
+ "items": {
+  "fb-0001": {
+   "bbox": {
+    "h": 60,
+    "w": 500,
+    "x": 100,
+    "y": 200
+   },
+   "claim": null,
+   "component": "feed-row",
+   "history": [
+    {
+     "at": "2026-10-22T21:00:01+09:00",
+     "bbox": {
+      "h": 60,
+      "w": 500,
+      "x": 100,
+      "y": 200
+     },
+     "by": "user",
+     "component": "feed-row",
+     "id": "fb-0001",
+     "idx": "0",
+     "kind": "visual",
+     "screen": "ShopView",
+     "stage": "mockup",
+     "state": "team",
+     "template": "friendlistunit",
+     "text": "행 높이가 너무 낮다",
+     "type": "open",
+     "version": "cp-r2"
+    },
+    {
+     "at": "2026-10-22T21:00:05+09:00",
+     "by": "claude",
+     "id": "fb-0001",
+     "text": "몇 px 를 원하시나요?",
+     "type": "comment"
+    },
+    {
+     "at": "2026-10-22T21:00:06+09:00",
+     "by": "user",
+     "id": "fb-0001",
+     "text": "56px",
+     "type": "comment"
+    },
+    {
+     "at": "2026-10-22T21:00:07+09:00",
+     "by": "claude",
+     "claim": "cl-0001",
+     "ids": [
+      "fb-0001"
+     ],
+     "snap": "feedback/snap/cl-0001",
+     "type": "claim"
+    },
+    {
+     "at": "2026-10-22T21:00:08+09:00",
+     "by": "claude",
+     "claim": "cl-0001",
+     "diff": "feedback/revisions/rev-0001.diff",
+     "files": [
+      "design/shop/variant-cp/style.css"
+     ],
+     "ids": [
+      "fb-0001"
+     ],
+     "rev": "rev-0001",
+     "shots": [
+      {
+       "after": "feedback/revisions/rev-0001/after-fb-0001.png",
+       "before": "feedback/snap/cl-0001/before/fb-0001.png",
+       "id": "fb-0001"
+      }
+     ],
+     "summary": "피드 행 높이 48→56px",
+     "type": "revision"
+    },
+    {
+     "at": "2026-10-22T21:00:09+09:00",
+     "by": "user",
+     "id": "fb-0001",
+     "text": "행 사이 간격도 같이 늘려 달라",
+     "type": "reopen"
+    },
+    {
+     "at": "2026-10-22T21:00:10+09:00",
+     "by": "claude",
+     "claim": "cl-0002",
+     "ids": [
+      "fb-0001",
+      "fb-0002"
+     ],
+     "snap": "feedback/snap/cl-0002",
+     "type": "claim"
+    },
+    {
+     "at": "2026-10-22T21:00:11+09:00",
+     "by": "claude",
+     "claim": "cl-0002",
+     "diff": "feedback/revisions/rev-0002.diff",
+     "files": [
+      "design/shop/variant-cp/app.js",
+      "design/shop/variant-cp/style.css"
+     ],
+     "ids": [
+      "fb-0001",
+      "fb-0002"
+     ],
+     "newVersion": "cp-r3",
+     "rev": "rev-0002",
+     "shots": [],
+     "summary": "행 간격 8px · 보드 버튼 문구 동사형",
+     "type": "revision"
+    },
+    {
+     "at": "2026-10-22T21:00:12+09:00",
+     "by": "user",
+     "id": "fb-0001",
+     "type": "close"
+    }
+   ],
+   "id": "fb-0001",
+   "idx": "0",
+   "kind": "visual",
+   "openedAt": "2026-10-22T21:00:01+09:00",
+   "revisions": [
+    "rev-0001",
+    "rev-0002"
+   ],
+   "screen": "ShopView",
+   "selector": null,
+   "stage": "mockup",
+   "state": "team",
+   "status": "closed",
+   "template": "friendlistunit",
+   "text": "행 높이가 너무 낮다",
+   "updatedAt": "2026-10-22T21:00:12+09:00",
+   "version": "cp-r2",
+   "path": null,
+   "suggest": null
+  },
+  "fb-0002": {
+   "bbox": null,
+   "claim": null,
+   "component": "board-actions",
+   "history": [
+    {
+     "at": "2026-10-22T21:00:02+09:00",
+     "by": "user",
+     "component": "board-actions",
+     "id": "fb-0002",
+     "kind": "copy",
+     "screen": "ShopView",
+     "stage": "mockup",
+     "text": "버튼 문구를 동사로 통일",
+     "type": "open",
+     "version": "cp-r2"
+    },
+    {
+     "at": "2026-10-22T21:00:10+09:00",
+     "by": "claude",
+     "claim": "cl-0002",
+     "ids": [
+      "fb-0001",
+      "fb-0002"
+     ],
+     "snap": "feedback/snap/cl-0002",
+     "type": "claim"
+    },
+    {
+     "at": "2026-10-22T21:00:11+09:00",
+     "by": "claude",
+     "claim": "cl-0002",
+     "diff": "feedback/revisions/rev-0002.diff",
+     "files": [
+      "design/shop/variant-cp/app.js",
+      "design/shop/variant-cp/style.css"
+     ],
+     "ids": [
+      "fb-0001",
+      "fb-0002"
+     ],
+     "newVersion": "cp-r3",
+     "rev": "rev-0002",
+     "shots": [],
+     "summary": "행 간격 8px · 보드 버튼 문구 동사형",
+     "type": "revision"
+    }
+   ],
+   "id": "fb-0002",
+   "idx": null,
+   "kind": "copy",
+   "openedAt": "2026-10-22T21:00:02+09:00",
+   "revisions": [
+    "rev-0002"
+   ],
+   "screen": "ShopView",
+   "selector": null,
+   "stage": "mockup",
+   "state": null,
+   "status": "fixed",
+   "template": null,
+   "text": "버튼 문구를 동사로 통일",
+   "updatedAt": "2026-10-22T21:00:11+09:00",
+   "version": "cp-r2",
+   "path": null,
+   "suggest": null
+  },
+  "fb-0003": {
+   "bbox": null,
+   "claim": null,
+   "component": "feed",
+   "history": [
+    {
+     "at": "2026-10-22T21:00:03+09:00",
+     "by": "user",
+     "component": "feed",
+     "id": "fb-0003",
+     "kind": "flow",
+     "screen": "ShopView",
+     "stage": "wire",
+     "state": "board",
+     "text": "피드 정렬 순서 재검토",
+     "type": "open",
+     "version": "r3"
+    },
+    {
+     "at": "2026-10-22T21:00:13+09:00",
+     "by": "claude",
+     "claim": "cl-0003",
+     "ids": [
+      "fb-0003"
+     ],
+     "snap": "feedback/snap/cl-0003",
+     "type": "claim"
+    },
+    {
+     "at": "2026-10-22T21:00:14+09:00",
+     "by": "claude",
+     "claim": "cl-0003",
+     "ids": [
+      "fb-0003"
+     ],
+     "text": "와이어는 구조 정본 — 사용자 확인 전 보류",
+     "type": "release"
+    }
+   ],
+   "id": "fb-0003",
+   "idx": null,
+   "kind": "flow",
+   "openedAt": "2026-10-22T21:00:03+09:00",
+   "revisions": [],
+   "screen": "ShopView",
+   "selector": null,
+   "stage": "wire",
+   "state": "board",
+   "status": "open",
+   "template": null,
+   "text": "피드 정렬 순서 재검토",
+   "updatedAt": "2026-10-22T21:00:14+09:00",
+   "version": "r3",
+   "path": null,
+   "suggest": null
+  },
+  "fb-0004": {
+   "bbox": {
+    "h": 420,
+    "w": 300,
+    "x": 40,
+    "y": 120
+   },
+   "claim": null,
+   "component": null,
+   "history": [
+    {
+     "at": "2026-10-22T21:00:04+09:00",
+     "bbox": {
+      "h": 420,
+      "w": 300,
+      "x": 40,
+      "y": 120
+     },
+     "by": "user",
+     "component": null,
+     "id": "fb-0004",
+     "kind": "bug",
+     "screen": "ShopView",
+     "selector": "#screen > div.bg-layer > div:nth-child(2)",
+     "stage": "mockup",
+     "text": "키 없는 장식이 겹친다",
+     "type": "open",
+     "version": "cp-r2"
+    },
+    {
+     "at": "2026-10-22T21:00:15+09:00",
+     "by": "user",
+     "id": "fb-0004",
+     "text": "철회",
+     "type": "close"
+    }
+   ],
+   "id": "fb-0004",
+   "idx": null,
+   "kind": "bug",
+   "openedAt": "2026-10-22T21:00:04+09:00",
+   "revisions": [],
+   "screen": "ShopView",
+   "selector": "#screen > div.bg-layer > div:nth-child(2)",
+   "stage": "mockup",
+   "state": null,
+   "status": "closed",
+   "template": null,
+   "text": "키 없는 장식이 겹친다",
+   "updatedAt": "2026-10-22T21:00:15+09:00",
+   "version": "cp-r2",
+   "path": null,
+   "suggest": null
+  },
+  "fb-0005": {
+   "bbox": null,
+   "claim": null,
+   "component": "feed",
+   "history": [
+    {
+     "at": "2026-10-22T21:00:16+09:00",
+     "by": "user",
+     "component": "feed",
+     "id": "fb-0005",
+     "kind": "other",
+     "screen": "ShopView",
+     "stage": "mockup",
+     "state": "board",
+     "text": "C 시안 피드 머리 비교용",
+     "type": "open",
+     "version": "c"
+    }
+   ],
+   "id": "fb-0005",
+   "idx": null,
+   "kind": "other",
+   "openedAt": "2026-10-22T21:00:16+09:00",
+   "revisions": [],
+   "screen": "ShopView",
+   "selector": null,
+   "stage": "mockup",
+   "state": "board",
+   "status": "open",
+   "template": null,
+   "text": "C 시안 피드 머리 비교용",
+   "updatedAt": "2026-10-22T21:00:16+09:00",
+   "version": "c",
+   "path": null,
+   "suggest": null
+  },
+  "fb-0006": {
+   "id": "fb-0006",
+   "screen": "ShopView",
+   "stage": "mockup",
+   "version": "cp-r2",
+   "kind": "visual",
+   "text": "썸네일 테두리가 행 배경과 겹친다",
+   "component": "feed-row",
+   "idx": null,
+   "template": "thumbnailcharacterunit",
+   "selector": "#canvas div.sheet-body > div.row:nth-of-type(1) button.slot:nth-of-type(1)",
+   "bbox": {
+    "x": 980,
+    "y": 410,
+    "w": 64,
+    "h": 64
+   },
+   "state": "team",
+   "path": [
+    {
+     "area": "feed-row",
+     "template": "friendlistunit",
+     "variant": "shop-list",
+     "selector": "#canvas div.sheet-body > div.row:nth-of-type(1)"
+    },
+    {
+     "template": "thumbnailcharacterunit",
+     "variant": "ShopItemSlotUnit",
+     "selector": "#canvas div.sheet-body > div.row:nth-of-type(1) button.slot:nth-of-type(1)"
+    }
+   ],
+   "suggest": null,
+   "status": "open",
+   "claim": null,
+   "openedAt": "2026-10-23T16:00:17+09:00",
+   "updatedAt": "2026-10-23T16:00:17+09:00",
+   "revisions": [],
+   "history": [
+    {
+     "type": "open",
+     "at": "2026-10-23T16:00:17+09:00",
+     "by": "user",
+     "id": "fb-0006",
+     "screen": "ShopView",
+     "stage": "mockup",
+     "version": "cp-r2",
+     "kind": "visual",
+     "text": "썸네일 테두리가 행 배경과 겹친다",
+     "component": "feed-row",
+     "template": "thumbnailcharacterunit",
+     "selector": "#canvas div.sheet-body > div.row:nth-of-type(1) button.slot:nth-of-type(1)",
+     "bbox": {
+      "x": 980,
+      "y": 410,
+      "w": 64,
+      "h": 64
+     },
+     "state": "team",
+     "path": [
+      {
+       "area": "feed-row",
+       "template": "friendlistunit",
+       "variant": "shop-list",
+       "selector": "#canvas div.sheet-body > div.row:nth-of-type(1)"
+      },
+      {
+       "template": "thumbnailcharacterunit",
+       "variant": "ShopItemSlotUnit",
+       "selector": "#canvas div.sheet-body > div.row:nth-of-type(1) button.slot:nth-of-type(1)"
+      }
+     ]
+    }
+   ]
+  },
+  "fb-0007": {
+   "id": "fb-0007",
+   "screen": "ShopView",
+   "stage": "mockup",
+   "version": "cp-r2",
+   "kind": "template",
+   "text": "빈 칸은 빈 슬롯 템플릿으로",
+   "component": "feed-row",
+   "idx": null,
+   "template": "thumbnailcharacterunit",
+   "selector": "#canvas div.sheet-body > div.row:nth-of-type(1) button.slot:nth-of-type(1)",
+   "bbox": {
+    "x": 980,
+    "y": 410,
+    "w": 64,
+    "h": 64
+   },
+   "state": "team",
+   "path": [
+    {
+     "area": "feed-row",
+     "template": "friendlistunit",
+     "variant": "shop-list",
+     "selector": "#canvas div.sheet-body > div.row:nth-of-type(1)"
+    },
+    {
+     "template": "thumbnailcharacterunit",
+     "variant": "ShopItemSlotUnit",
+     "selector": "#canvas div.sheet-body > div.row:nth-of-type(1) button.slot:nth-of-type(1)"
+    }
+   ],
+   "suggest": {
+    "template": "thumbnailemptyunit"
+   },
+   "status": "open",
+   "claim": null,
+   "openedAt": "2026-10-23T16:00:18+09:00",
+   "updatedAt": "2026-10-23T16:00:18+09:00",
+   "revisions": [],
+   "history": [
+    {
+     "type": "open",
+     "at": "2026-10-23T16:00:18+09:00",
+     "by": "user",
+     "id": "fb-0007",
+     "screen": "ShopView",
+     "stage": "mockup",
+     "version": "cp-r2",
+     "kind": "template",
+     "text": "빈 칸은 빈 슬롯 템플릿으로",
+     "component": "feed-row",
+     "template": "thumbnailcharacterunit",
+     "selector": "#canvas div.sheet-body > div.row:nth-of-type(1) button.slot:nth-of-type(1)",
+     "bbox": {
+      "x": 980,
+      "y": 410,
+      "w": 64,
+      "h": 64
+     },
+     "state": "team",
+     "path": [
+      {
+       "area": "feed-row",
+       "template": "friendlistunit",
+       "variant": "shop-list",
+       "selector": "#canvas div.sheet-body > div.row:nth-of-type(1)"
+      },
+      {
+       "template": "thumbnailcharacterunit",
+       "variant": "ShopItemSlotUnit",
+       "selector": "#canvas div.sheet-body > div.row:nth-of-type(1) button.slot:nth-of-type(1)"
+      }
+     ],
+     "suggest": {
+      "template": "thumbnailemptyunit"
+     }
+    }
+   ]
+  }
+ },
+ "revisions": {
+  "rev-0001": {
+   "at": "2026-10-22T21:00:08+09:00",
+   "by": "claude",
+   "claim": "cl-0001",
+   "diff": "feedback/revisions/rev-0001.diff",
+   "files": [
+    "design/shop/variant-cp/style.css"
+   ],
+   "ids": [
+    "fb-0001"
+   ],
+   "rev": "rev-0001",
+   "shots": [
+    {
+     "after": "feedback/revisions/rev-0001/after-fb-0001.png",
+     "before": "feedback/snap/cl-0001/before/fb-0001.png",
+     "id": "fb-0001"
+    }
+   ],
+   "summary": "피드 행 높이 48→56px",
+   "type": "revision"
+  },
+  "rev-0002": {
+   "at": "2026-10-22T21:00:11+09:00",
+   "by": "claude",
+   "claim": "cl-0002",
+   "diff": "feedback/revisions/rev-0002.diff",
+   "files": [
+    "design/shop/variant-cp/app.js",
+    "design/shop/variant-cp/style.css"
+   ],
+   "ids": [
+    "fb-0001",
+    "fb-0002"
+   ],
+   "newVersion": "cp-r3",
+   "rev": "rev-0002",
+   "shots": [],
+   "summary": "행 간격 8px · 보드 버튼 문구 동사형",
+   "type": "revision"
+  }
+ },
+ "versionCounts": {
+  "ShopBuyPopup": {
+   "wire": {
+    "r1": {
+     "claimed": 0,
+     "closed": 0,
+     "fixed": 0,
+     "open": 0,
+     "reopened": 0
+    }
+   }
+  },
+  "ShopView": {
+   "mockup": {
+    "c": {
+     "claimed": 0,
+     "closed": 0,
+     "fixed": 0,
+     "open": 1,
+     "reopened": 0
+    },
+    "cp-r2": {
+     "claimed": 0,
+     "closed": 2,
+     "fixed": 1,
+     "open": 2,
+     "reopened": 0
+    }
+   },
+   "wire": {
+    "r3": {
+     "claimed": 0,
+     "closed": 0,
+     "fixed": 0,
+     "open": 1,
+     "reopened": 0
+    }
+   }
+  }
+ }
+}

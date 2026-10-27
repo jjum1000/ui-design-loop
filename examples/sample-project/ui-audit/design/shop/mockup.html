@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ShopView — mockup v1</title>
+<style>
+  :root { --bg: #1f2a44; --panel: #2d3b5e; --ink: #f4f1e8; --accent: #f2b33d; --accent-ink: #2b1d00; --line: #46557c; }
+  body { margin: 0; background: #111; font: 600 20px/1.3 system-ui, sans-serif; color: var(--ink); }
+  #canvas { position: relative; width: 1280px; height: 720px; margin: 0 auto; background: var(--bg); overflow: hidden; }
+  .abs { position: absolute; box-sizing: border-box; }
+  .bar { left: 0; top: 0; width: 1280px; height: 96px; background: var(--panel); border-bottom: 4px solid var(--line); display: flex; align-items: center; padding: 0 32px; font-size: 34px; letter-spacing: 2px; }
+  .pill { left: 1000px; top: 18px; width: 240px; height: 60px; border-radius: 30px; background: #141c30; display: flex; align-items: center; gap: 10px; padding: 0 18px; }
+  .coin { width: 34px; height: 34px; border-radius: 50%; background: var(--accent); }
+  .tabs { left: 60px; top: 128px; display: flex; gap: 12px; }
+  .tab { width: 180px; height: 64px; border-radius: 12px; background: var(--panel); display: flex; align-items: center; justify-content: center; color: #b9c3dd; }
+  .tab.on { background: var(--accent); color: var(--accent-ink); }
+  .grid { left: 60px; top: 220px; width: 760px; display: flex; flex-wrap: wrap; gap: 24px; }
+  .slot { width: 220px; height: 220px; border-radius: 18px; background: var(--panel); border: 4px solid var(--line); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+  .gem { width: 90px; height: 90px; border-radius: 18px; transform: rotate(45deg); background: #6fc3e8; }
+  .detail { left: 860px; top: 128px; width: 380px; height: 444px; border-radius: 18px; background: var(--panel); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; }
+  .buy { left: 900px; top: 600px; width: 300px; height: 96px; border-radius: 20px; background: var(--accent); color: var(--accent-ink); display: flex; align-items: center; justify-content: center; font-size: 32px; }
+</style>
+</head>
+<body>
+<div id="canvas">
+  <div class="abs bar" data-area="title-bar" data-template="titlebar"><span data-area="header-title">SHOP</span></div>
+  <div class="abs pill" data-area="currency" data-template="currencyunit"><span class="coin"></span>12,500</div>
+  <div class="abs tabs" data-area="tab-bar">
+    <div class="tab on" data-area="tab" data-idx="0" data-template="tabbutton">Featured</div>
+    <div class="tab" data-area="tab" data-idx="1" data-template="tabbutton">Items</div>
+    <div class="tab" data-area="tab" data-idx="2" data-template="tabbutton">Bundles</div>
+  </div>
+  <div class="abs grid" data-area="item-grid">
+    <div class="slot" data-area="item-slot" data-idx="0" data-template="itemslotunit"><span class="gem"></span>x1</div>
+    <div class="slot" data-area="item-slot" data-idx="1" data-template="itemslotunit"><span class="gem"></span>x5</div>
+    <div class="slot" data-area="item-slot" data-idx="2" data-template="itemslotunit"><span class="gem"></span>x10</div>
+    <div class="slot" data-area="item-slot" data-idx="3" data-template="itemslotunit"><span class="gem"></span>x1</div>
+    <div class="slot" data-area="item-slot" data-idx="4" data-template="itemslotunit"><span class="gem"></span>x3</div>
+    <div class="slot" data-area="item-slot" data-idx="5" data-template="itemslotunit"><span class="gem"></span>x2</div>
+  </div>
+  <div class="abs detail" data-area="detail-panel">
+    <span class="gem"></span>
+    <span data-area="detail-name">Blue Gem</span>
+    <span data-area="detail-price">1,200</span>
+  </div>
+  <div class="abs buy" data-area="buy-button" data-template="button-primary">BUY</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,145 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "app-flow",
+ "type": "object",
+ "properties": {
+  "updatedAt": {
+   "type": "string"
+  },
+  "appScreen": {
+   "type": "string"
+  },
+  "apps": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "contentsType": {
+      "type": "string"
+     },
+     "value": {
+      "type": "integer"
+     },
+     "label": {
+      "type": "string"
+     },
+     "enabled": {
+      "type": "boolean"
+     },
+     "hidden": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "manual": {
+      "type": "boolean"
+     },
+     "icon": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "iconPath": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "screens": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    },
+    "required": [
+     "contentsType",
+     "value",
+     "enabled",
+     "hidden",
+     "screens"
+    ]
+   }
+  },
+  "screens": {
+   "type": "object",
+   "additionalProperties": {
+    "type": "object",
+    "properties": {
+     "uiType": {
+      "type": "string"
+     },
+     "controller": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "prefab": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "slug": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "next": {
+      "type": "array",
+      "items": {
+       "type": "object",
+       "properties": {
+        "uiType": {
+         "type": "string"
+        },
+        "file": {
+         "type": "string"
+        },
+        "line": {
+         "type": "integer"
+        },
+        "via": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "uiType",
+        "file",
+        "line",
+        "via"
+       ]
+      }
+     }
+    },
+    "required": [
+     "uiType",
+     "controller",
+     "prefab",
+     "next"
+    ]
+   }
+  },
+  "unresolved": {
+   "type": "array",
+   "items": {
+    "type": "object"
+   }
+  },
+  "stats": {
+   "type": "object"
+  }
+ },
+ "required": [
+  "updatedAt",
+  "appScreen",
+  "apps",
+  "screens",
+  "unresolved",
+  "stats"
+ ]
+}

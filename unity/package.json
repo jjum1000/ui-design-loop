@@ -1,0 +1,17 @@
+{
+  "name": "com.ui-design-loop.bridge",
+  "version": "0.1.0",
+  "displayName": "UI Design Loop Bridge",
+  "description": "Editor-only batch renderers used by the ui-design-loop toolkit: template thumbnails and screen layout maps (PNG + per-node screen rects) for uGUI prefabs. Never modifies project assets.",
+  "unity": "2022.3",
+  "dependencies": {
+    "com.unity.ugui": "1.0.0"
+  },
+  "license": "MIT",
+  "keywords": [
+    "ugui",
+    "ui",
+    "audit",
+    "renderer"
+  ]
+}

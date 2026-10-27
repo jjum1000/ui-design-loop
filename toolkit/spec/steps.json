@@ -1,0 +1,100 @@
+{
+ "note": "state.py step-done 이 이 파일의 checks 를 순서대로 검사한다. 경로의 {batch}·{chunk}·{kind} 는 배치·조각·조각의 종류로 바뀐다. snapshot 은 start 가 .bak 에 복사하는 대상, tmpdirs 는 start 가 남은 .tmp 를 지우는 곳.",
+ "checkDescriptions": {
+  "chunks_done": "모든 조각이 완료",
+  "outputs_exist": "조각마다 outputs 파일이 있음",
+  "outputs_valid": "outputs 파일이 schemas/ 기준 스키마 통과 (validate.py 와 같은 규칙)",
+  "all_nodes_classified": "inventory 의 모든 노드가 classified 에 있고, 확신도 low 는 questionId 가 있음",
+  "targets_grouped": "조각 대상 노드(현재 분류가 그 종류인 것)가 모두 그 종류 그룹의 멤버",
+  "no_foreign_members": "그 종류 그룹에 다른 종류·구조용·삭제된 노드가 0개",
+  "group_ids_kept": "배치 스냅샷의 그룹 ID 가 registry 의 groups·aliases·retired 에 모두 남아 있음",
+  "values_mapped": "cluster_values.collect 가 모은 모든 값이 mapping 또는 exceptions 에 있음",
+  "token_ids_kept": "배치 스냅샷의 토큰 ID 가 token-registry 의 tokens·aliases·retired 에 모두 남아 있음",
+  "pages_exist": "catalog/ 의 6개 페이지(index, tokens, components, screens, refactor-map, decisions)가 있음",
+  "catalog_links": "build_catalog.py --check 에서 깨진 링크·이미지 0개",
+  "report_samples": "reports/review-<batch>.md 에 조각마다 '## <조각>' 절과 '- 표본' 줄 5개 이상"
+ },
+ "A1": {
+  "label": "A1 수집", "chunk": "화면 프리팹 1개 (batches/<batch>.json 의 slug)",
+  "outputs": ["data/inventory/{batch}/{chunk}.json"],
+  "checks": ["chunks_done", "outputs_exist", "outputs_valid"],
+  "snapshot": ["data/inventory/{batch}"], "tmpdirs": ["data/inventory/{batch}"],
+  "commands": [
+   "python scripts/parse_prefab.py --batch {batch} --screen <조각>",
+   "python scripts/validate.py --rename data/inventory/{batch}/<조각>.json.tmp",
+   "python scripts/state.py chunk-done {batch} A1 <조각> --calls <도구 호출 수>",
+   "python scripts/state.py step-done {batch} A1"
+  ]
+ },
+ "A2": {
+  "label": "A2 분류", "chunk": "화면 1개",
+  "outputs": ["data/classified/{batch}/{chunk}.json"],
+  "checks": ["chunks_done", "outputs_exist", "outputs_valid", "all_nodes_classified"],
+  "snapshot": ["data/classified/{batch}"], "tmpdirs": ["data/classified/{batch}", "data/.work/{batch}/A2"],
+  "commands": [
+   "python scripts/classify_rules.py --batch {batch} --screen <조각>          (규칙 분류, 미정 목록 출력)",
+   "python scripts/classify_rules.py --batch {batch} --screen <조각> --pending --offset 40",
+   "스크린샷 input/screenshots/{batch}/<조각>_<비율>.png 와 대조해 data/.work/{batch}/A2/<조각>.answers.json 작성",
+   "python scripts/classify_rules.py --batch {batch} --screen <조각> --answers data/.work/{batch}/A2/<조각>.answers.json",
+   "python scripts/validate.py --rename data/classified/{batch}/<조각>.json.tmp",
+   "python scripts/state.py chunk-done {batch} A2 <조각> --calls <N>",
+   "python scripts/state.py step-done {batch} A2"
+  ]
+ },
+ "A3": {
+  "label": "A3 통합 분석", "chunk": "종류 1개 (대상 300개 초과 시 <종류>-<n>)",
+  "outputs": ["data/groups/{kind}.json", "data/registry/{kind}.json", "data/metrics/{kind}.json"],
+  "checks": ["chunks_done", "outputs_exist", "outputs_valid", "targets_grouped", "no_foreign_members", "group_ids_kept"],
+  "snapshot": ["data/groups", "data/registry", "data/metrics"], "tmpdirs": ["data/groups", "data/registry", "data/metrics"],
+  "commands": [
+   "python scripts/group.py run --batch {batch} --chunk <조각>",
+   "python scripts/group.py border --batch {batch} --chunk <조각>      (경계 사례 확인)",
+   "python scripts/group.py merge --batch {batch} --kind <종류> <없앨 그룹> <남길 그룹>   → run 다시",
+   "python scripts/group.py candidate --batch {batch} --kind <종류> <그룹> --reason \"<근거>\"   → run 다시",
+   "python scripts/validate.py --rename data/groups/<종류>.json.tmp data/registry/<종류>.json.tmp data/metrics/<종류>.json.tmp",
+   "python scripts/state.py chunk-done {batch} A3 <조각> --calls <N>",
+   "python scripts/state.py step-done {batch} A3"
+  ]
+ },
+ "A4": {
+  "label": "A4 토큰 추출", "chunk": "토큰 분류 1개 (color, type, spacing, nineslice, size)",
+  "outputs": ["data/tokens/{chunk}.json", "data/token-registry/{chunk}.json"],
+  "checks": ["chunks_done", "outputs_exist", "outputs_valid", "values_mapped", "token_ids_kept"],
+  "snapshot": ["data/tokens", "data/token-registry"], "tmpdirs": ["data/tokens", "data/token-registry"],
+  "commands": [
+   "python scripts/cluster_values.py run --batch {batch} --chunk <조각>",
+   "python scripts/cluster_values.py family --batch {batch} --chunk color <토큰> grade|attribute   → run 다시",
+   "python scripts/cluster_values.py except --batch {batch} --chunk <조각> \"<값 키>\" --reason \"<사유>\"   → run 다시",
+   "python scripts/validate.py --rename data/tokens/<조각>.json.tmp data/token-registry/<조각>.json.tmp",
+   "python scripts/state.py chunk-done {batch} A4 <조각> --calls <N>",
+   "python scripts/state.py step-done {batch} A4"
+  ]
+ },
+ "A5": {
+  "label": "A5 카탈로그 빌드", "chunk": "페이지 1개 (index, tokens, components, screens, refactor-map, decisions)",
+  "outputs": ["catalog/{chunk}.html"],
+  "checks": ["chunks_done", "pages_exist", "catalog_links"],
+  "snapshot": ["catalog"], "tmpdirs": ["catalog"],
+  "commands": [
+   "python scripts/build_catalog.py --page <조각>",
+   "python scripts/validate.py --rename catalog",
+   "python scripts/state.py chunk-done {batch} A5 <조각> --calls <N>",
+   "python scripts/build_catalog.py --check",
+   "python scripts/state.py step-done {batch} A5"
+  ]
+ },
+ "A6": {
+  "label": "A6 검증", "chunk": "이번 배치에서 바뀐 종류 1개",
+  "outputs": ["reports/review-{batch}.md"],
+  "checks": ["chunks_done", "report_samples"],
+  "snapshot": ["reports"], "tmpdirs": ["reports"],
+  "commands": [
+   "python scripts/build_catalog.py --samples <조각> --n 5      (대조할 표본: 노드 id·출처·값)",
+   "reports/review-{batch}.md.tmp 에 (기존 내용 + '## <조각>' 절) 을 쓰고, 표본마다 '- 표본 N: <노드 id> | 분류 | 크기·색 | 출처 | 결정 반영 | 판정' 한 줄",
+   "python scripts/validate.py --rename reports/review-{batch}.md.tmp",
+   "문제 있으면: python scripts/state.py reopen <배치> <A1|A2|A3|A4|A5> --chunks <조각들> --reason \"<무엇이 틀렸고 기대값은>\" 후 step-done 없이 종료",
+   "python scripts/state.py chunk-done {batch} A6 <조각> --calls <N>",
+   "python scripts/state.py step-done {batch} A6"
+  ]
+ }
+}

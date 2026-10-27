@@ -1,0 +1,128 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "layout",
+ "type": "object",
+ "properties": {
+  "slug": {
+   "type": "string",
+   "pattern": "^[a-z0-9][a-z0-9_.-]*$"
+  },
+  "kind": {
+   "enum": [
+    "screen",
+    "template"
+   ]
+  },
+  "path": {
+   "type": "string",
+   "pattern": "^Assets/"
+  },
+  "image": {
+   "type": "string"
+  },
+  "thumb": {
+   "type": [
+    "string",
+    "null"
+   ]
+  },
+  "width": {
+   "type": "integer",
+   "minimum": 1
+  },
+  "height": {
+   "type": "integer",
+   "minimum": 1
+  },
+  "blank": {
+   "type": "boolean"
+  },
+  "boxes": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "path": {
+      "type": "string"
+     },
+     "name": {
+      "type": "string"
+     },
+     "depth": {
+      "type": "integer",
+      "minimum": 0
+     },
+     "x": {
+      "type": "number"
+     },
+     "y": {
+      "type": "number"
+     },
+     "w": {
+      "type": "number",
+      "minimum": 0
+     },
+     "h": {
+      "type": "number",
+      "minimum": 0
+     },
+     "template": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "nested": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "active": {
+      "type": "boolean"
+     },
+     "sample": {
+      "type": "boolean"
+     },
+     "loader": {
+      "type": "boolean"
+     },
+     "comps": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "id",
+     "path",
+     "name",
+     "depth",
+     "x",
+     "y",
+     "w",
+     "h",
+     "template",
+     "nested",
+     "active",
+     "sample",
+     "loader"
+    ]
+   },
+   "minItems": 1
+  },
+  "stats": {
+   "type": "object"
+  }
+ },
+ "required": [
+  "slug",
+  "kind",
+  "path",
+  "image",
+  "width",
+  "height",
+  "boxes"
+ ]
+}

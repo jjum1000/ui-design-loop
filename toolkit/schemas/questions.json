@@ -1,0 +1,82 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "questions",
+ "type": "array",
+ "items": {
+  "type": "object",
+  "properties": {
+   "id": {
+    "type": "string",
+    "pattern": "^q-[0-9]{4,}$"
+   },
+   "gate": {
+    "enum": [
+     "H1",
+     "H2",
+     "H3"
+    ]
+   },
+   "batch": {
+    "type": "string",
+    "pattern": "^b[0-9]+$"
+   },
+   "status": {
+    "enum": [
+     "open",
+     "answered",
+     "dropped"
+    ]
+   },
+   "target": {
+    "type": "string"
+   },
+   "text": {
+    "type": "string"
+   },
+   "options": {
+    "type": "array",
+    "items": {
+     "type": "object",
+     "properties": {
+      "label": {
+       "type": "string"
+      },
+      "action": {
+       "type": "string"
+      }
+     },
+     "required": [
+      "label",
+      "action"
+     ]
+    },
+    "minItems": 1
+   },
+   "evidence": {
+    "type": "array",
+    "items": {
+     "type": "string"
+    }
+   },
+   "answer": {
+    "type": [
+     "string",
+     "null"
+    ]
+   },
+   "createdAt": {
+    "type": "string"
+   }
+  },
+  "required": [
+   "id",
+   "gate",
+   "batch",
+   "status",
+   "target",
+   "text",
+   "options",
+   "evidence"
+  ]
+ }
+}

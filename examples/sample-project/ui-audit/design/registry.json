@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "screens": {
+  "ShopView": {
+   "app": "Shop",
+   "label": "Shop",
+   "stages": [
+    {
+     "stage": "wire",
+     "version": "r1",
+     "label": "wireframe r1",
+     "status": "done",
+     "entry": "design/shop/wire.html",
+     "files": ["design/shop/wire.html"],
+     "states": []
+    },
+    {
+     "stage": "mockup",
+     "version": "v1",
+     "label": "mockup v1",
+     "status": "wip",
+     "entry": "design/shop/mockup.html",
+     "files": ["design/shop/mockup.html"],
+     "states": []
+    }
+   ]
+  }
+ }
+}

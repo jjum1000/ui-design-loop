@@ -1,0 +1,80 @@
+{
+ "$comment": "selftest 임시 루트의 catalog/library/index.json 자리(개정 L 7.4 형식의 부분).",
+ "generatedAt": "2026-10-23T16:00:00+09:00",
+ "templates": {
+  "thumbnailcharacterunit": {
+   "name": "ThumbnailCharacterUnit",
+   "thumb": null,
+   "usage": 75,
+   "screens": 58,
+   "tier": null,
+   "kind": null,
+   "page": "catalog/templates/thumbnailcharacterunit.html",
+   "layout": true,
+   "groups": [
+    "썸네일",
+    "아이콘"
+   ],
+   "kit": [
+    {
+     "group": "썸네일",
+     "element": "캐릭터 썸네일",
+     "kitClass": ".k-thumb (specimen 스니펫)"
+    },
+    {
+     "group": "아이콘",
+     "element": "티어(A·S·X·XA)",
+     "kitClass": "assets/icons/tier/Thumbnail_Big_Tier_*.png"
+    }
+   ],
+   "alts": [
+    "thumbnailselectunit",
+    "thumbnailemptyunit"
+   ]
+  },
+  "thumbnailemptyunit": {
+   "name": "ThumbnailEmptyUnit",
+   "thumb": null,
+   "usage": 4,
+   "screens": 34,
+   "tier": null,
+   "kind": null,
+   "page": "catalog/templates/thumbnailemptyunit.html",
+   "layout": true,
+   "groups": [
+    "썸네일"
+   ],
+   "kit": [
+    {
+     "group": "썸네일",
+     "element": "빈 슬롯",
+     "kitClass": "(스니펫)"
+    }
+   ],
+   "alts": [
+    "thumbnailcharacterunit",
+    "thumbnailselectunit"
+   ]
+  },
+  "friendlistunit": {
+   "name": "FriendListUnit",
+   "thumb": null,
+   "usage": 4,
+   "screens": 1,
+   "tier": "atom",
+   "kind": "other",
+   "page": "catalog/templates/friendlistunit.html",
+   "layout": true,
+   "groups": [],
+   "kit": [],
+   "alts": []
+  }
+ },
+ "groups": {
+  "썸네일": [
+   "thumbnailcharacterunit",
+   "thumbnailselectunit",
+   "thumbnailemptyunit"
+  ]
+ }
+}

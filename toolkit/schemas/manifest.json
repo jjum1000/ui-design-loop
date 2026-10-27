@@ -1,0 +1,871 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "manifest",
+ "type": "object",
+ "properties": {
+  "version": {
+   "type": "integer"
+  },
+  "current": {
+   "type": "object",
+   "properties": {
+    "batch": {
+     "type": "string",
+     "pattern": "^b[0-9]+$"
+    },
+    "next": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "batch",
+    "next"
+   ]
+  },
+  "batchOrder": {
+   "type": "array",
+   "items": {
+    "type": "string",
+    "pattern": "^b[0-9]+$"
+   },
+   "minItems": 1
+  },
+  "ack": {
+   "type": "object",
+   "properties": {
+    "H2": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "H3": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    }
+   },
+   "required": [
+    "H2",
+    "H3"
+   ]
+  },
+  "batches": {
+   "type": "object",
+   "additionalProperties": {
+    "type": "object",
+    "properties": {
+     "gates": {
+      "type": "object",
+      "properties": {
+       "H1": {
+        "enum": [
+         "대기",
+         "완료"
+        ]
+       },
+       "H2": {
+        "enum": [
+         "대기",
+         "완료"
+        ]
+       },
+       "H3": {
+        "enum": [
+         "대기",
+         "완료"
+        ]
+       }
+      },
+      "required": [
+       "H1",
+       "H2",
+       "H3"
+      ]
+     },
+     "steps": {
+      "type": "object",
+      "properties": {
+       "A1": {
+        "type": "object",
+        "properties": {
+         "status": {
+          "enum": [
+           "대기",
+           "진행",
+           "완료",
+           "무효",
+           "실패"
+          ]
+         },
+         "attempts": {
+          "type": "integer"
+         },
+         "failures": {
+          "type": "integer"
+         },
+         "crashes": {
+          "type": "integer"
+         },
+         "resets": {
+          "type": "integer"
+         },
+         "skipped": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "failedBy": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "startedAt": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "finishedAt": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "reopen": {
+          "anyOf": [
+           {
+            "type": "object",
+            "properties": {
+             "chunks": {
+              "type": "array",
+              "items": {
+               "type": "string"
+              }
+             },
+             "reason": {
+              "type": "string"
+             },
+             "by": {
+              "type": "string"
+             }
+            },
+            "required": [
+             "chunks",
+             "reason",
+             "by"
+            ]
+           },
+           {
+            "type": "null"
+           }
+          ]
+         },
+         "lastCheck": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "chunks": {
+          "type": "object",
+          "additionalProperties": {
+           "type": "object",
+           "properties": {
+            "status": {
+             "enum": [
+              "대기",
+              "완료",
+              "보류"
+             ]
+            },
+            "limitHits": {
+             "type": "integer",
+             "minimum": 0
+            },
+            "calls": {
+             "type": "integer",
+             "minimum": 0
+            },
+            "kind": {
+             "type": "string"
+            },
+            "targets": {
+             "type": "string"
+            }
+           },
+           "required": [
+            "status",
+            "limitHits",
+            "calls"
+           ]
+          }
+         }
+        },
+        "required": [
+         "status",
+         "attempts",
+         "failures",
+         "crashes",
+         "chunks"
+        ]
+       },
+       "A2": {
+        "type": "object",
+        "properties": {
+         "status": {
+          "enum": [
+           "대기",
+           "진행",
+           "완료",
+           "무효",
+           "실패"
+          ]
+         },
+         "attempts": {
+          "type": "integer"
+         },
+         "failures": {
+          "type": "integer"
+         },
+         "crashes": {
+          "type": "integer"
+         },
+         "resets": {
+          "type": "integer"
+         },
+         "skipped": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "failedBy": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "startedAt": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "finishedAt": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "reopen": {
+          "anyOf": [
+           {
+            "type": "object",
+            "properties": {
+             "chunks": {
+              "type": "array",
+              "items": {
+               "type": "string"
+              }
+             },
+             "reason": {
+              "type": "string"
+             },
+             "by": {
+              "type": "string"
+             }
+            },
+            "required": [
+             "chunks",
+             "reason",
+             "by"
+            ]
+           },
+           {
+            "type": "null"
+           }
+          ]
+         },
+         "lastCheck": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "chunks": {
+          "type": "object",
+          "additionalProperties": {
+           "type": "object",
+           "properties": {
+            "status": {
+             "enum": [
+              "대기",
+              "완료",
+              "보류"
+             ]
+            },
+            "limitHits": {
+             "type": "integer",
+             "minimum": 0
+            },
+            "calls": {
+             "type": "integer",
+             "minimum": 0
+            },
+            "kind": {
+             "type": "string"
+            },
+            "targets": {
+             "type": "string"
+            }
+           },
+           "required": [
+            "status",
+            "limitHits",
+            "calls"
+           ]
+          }
+         }
+        },
+        "required": [
+         "status",
+         "attempts",
+         "failures",
+         "crashes",
+         "chunks"
+        ]
+       },
+       "A3": {
+        "type": "object",
+        "properties": {
+         "status": {
+          "enum": [
+           "대기",
+           "진행",
+           "완료",
+           "무효",
+           "실패"
+          ]
+         },
+         "attempts": {
+          "type": "integer"
+         },
+         "failures": {
+          "type": "integer"
+         },
+         "crashes": {
+          "type": "integer"
+         },
+         "resets": {
+          "type": "integer"
+         },
+         "skipped": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "failedBy": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "startedAt": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "finishedAt": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "reopen": {
+          "anyOf": [
+           {
+            "type": "object",
+            "properties": {
+             "chunks": {
+              "type": "array",
+              "items": {
+               "type": "string"
+              }
+             },
+             "reason": {
+              "type": "string"
+             },
+             "by": {
+              "type": "string"
+             }
+            },
+            "required": [
+             "chunks",
+             "reason",
+             "by"
+            ]
+           },
+           {
+            "type": "null"
+           }
+          ]
+         },
+         "lastCheck": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "chunks": {
+          "type": "object",
+          "additionalProperties": {
+           "type": "object",
+           "properties": {
+            "status": {
+             "enum": [
+              "대기",
+              "완료",
+              "보류"
+             ]
+            },
+            "limitHits": {
+             "type": "integer",
+             "minimum": 0
+            },
+            "calls": {
+             "type": "integer",
+             "minimum": 0
+            },
+            "kind": {
+             "type": "string"
+            },
+            "targets": {
+             "type": "string"
+            }
+           },
+           "required": [
+            "status",
+            "limitHits",
+            "calls"
+           ]
+          }
+         }
+        },
+        "required": [
+         "status",
+         "attempts",
+         "failures",
+         "crashes",
+         "chunks"
+        ]
+       },
+       "A4": {
+        "type": "object",
+        "properties": {
+         "status": {
+          "enum": [
+           "대기",
+           "진행",
+           "완료",
+           "무효",
+           "실패"
+          ]
+         },
+         "attempts": {
+          "type": "integer"
+         },
+         "failures": {
+          "type": "integer"
+         },
+         "crashes": {
+          "type": "integer"
+         },
+         "resets": {
+          "type": "integer"
+         },
+         "skipped": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "failedBy": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "startedAt": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "finishedAt": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "reopen": {
+          "anyOf": [
+           {
+            "type": "object",
+            "properties": {
+             "chunks": {
+              "type": "array",
+              "items": {
+               "type": "string"
+              }
+             },
+             "reason": {
+              "type": "string"
+             },
+             "by": {
+              "type": "string"
+             }
+            },
+            "required": [
+             "chunks",
+             "reason",
+             "by"
+            ]
+           },
+           {
+            "type": "null"
+           }
+          ]
+         },
+         "lastCheck": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "chunks": {
+          "type": "object",
+          "additionalProperties": {
+           "type": "object",
+           "properties": {
+            "status": {
+             "enum": [
+              "대기",
+              "완료",
+              "보류"
+             ]
+            },
+            "limitHits": {
+             "type": "integer",
+             "minimum": 0
+            },
+            "calls": {
+             "type": "integer",
+             "minimum": 0
+            },
+            "kind": {
+             "type": "string"
+            },
+            "targets": {
+             "type": "string"
+            }
+           },
+           "required": [
+            "status",
+            "limitHits",
+            "calls"
+           ]
+          }
+         }
+        },
+        "required": [
+         "status",
+         "attempts",
+         "failures",
+         "crashes",
+         "chunks"
+        ]
+       },
+       "A5": {
+        "type": "object",
+        "properties": {
+         "status": {
+          "enum": [
+           "대기",
+           "진행",
+           "완료",
+           "무효",
+           "실패"
+          ]
+         },
+         "attempts": {
+          "type": "integer"
+         },
+         "failures": {
+          "type": "integer"
+         },
+         "crashes": {
+          "type": "integer"
+         },
+         "resets": {
+          "type": "integer"
+         },
+         "skipped": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "failedBy": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "startedAt": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "finishedAt": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "reopen": {
+          "anyOf": [
+           {
+            "type": "object",
+            "properties": {
+             "chunks": {
+              "type": "array",
+              "items": {
+               "type": "string"
+              }
+             },
+             "reason": {
+              "type": "string"
+             },
+             "by": {
+              "type": "string"
+             }
+            },
+            "required": [
+             "chunks",
+             "reason",
+             "by"
+            ]
+           },
+           {
+            "type": "null"
+           }
+          ]
+         },
+         "lastCheck": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "chunks": {
+          "type": "object",
+          "additionalProperties": {
+           "type": "object",
+           "properties": {
+            "status": {
+             "enum": [
+              "대기",
+              "완료",
+              "보류"
+             ]
+            },
+            "limitHits": {
+             "type": "integer",
+             "minimum": 0
+            },
+            "calls": {
+             "type": "integer",
+             "minimum": 0
+            },
+            "kind": {
+             "type": "string"
+            },
+            "targets": {
+             "type": "string"
+            }
+           },
+           "required": [
+            "status",
+            "limitHits",
+            "calls"
+           ]
+          }
+         }
+        },
+        "required": [
+         "status",
+         "attempts",
+         "failures",
+         "crashes",
+         "chunks"
+        ]
+       },
+       "A6": {
+        "type": "object",
+        "properties": {
+         "status": {
+          "enum": [
+           "대기",
+           "진행",
+           "완료",
+           "무효",
+           "실패"
+          ]
+         },
+         "attempts": {
+          "type": "integer"
+         },
+         "failures": {
+          "type": "integer"
+         },
+         "crashes": {
+          "type": "integer"
+         },
+         "resets": {
+          "type": "integer"
+         },
+         "skipped": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "failedBy": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "startedAt": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "finishedAt": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "reopen": {
+          "anyOf": [
+           {
+            "type": "object",
+            "properties": {
+             "chunks": {
+              "type": "array",
+              "items": {
+               "type": "string"
+              }
+             },
+             "reason": {
+              "type": "string"
+             },
+             "by": {
+              "type": "string"
+             }
+            },
+            "required": [
+             "chunks",
+             "reason",
+             "by"
+            ]
+           },
+           {
+            "type": "null"
+           }
+          ]
+         },
+         "lastCheck": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "chunks": {
+          "type": "object",
+          "additionalProperties": {
+           "type": "object",
+           "properties": {
+            "status": {
+             "enum": [
+              "대기",
+              "완료",
+              "보류"
+             ]
+            },
+            "limitHits": {
+             "type": "integer",
+             "minimum": 0
+            },
+            "calls": {
+             "type": "integer",
+             "minimum": 0
+            },
+            "kind": {
+             "type": "string"
+            },
+            "targets": {
+             "type": "string"
+            }
+           },
+           "required": [
+            "status",
+            "limitHits",
+            "calls"
+           ]
+          }
+         }
+        },
+        "required": [
+         "status",
+         "attempts",
+         "failures",
+         "crashes",
+         "chunks"
+        ]
+       }
+      },
+      "required": [
+       "A1",
+       "A2",
+       "A3",
+       "A4",
+       "A5",
+       "A6"
+      ]
+     }
+    },
+    "required": [
+     "gates",
+     "steps"
+    ]
+   }
+  }
+ },
+ "required": [
+  "version",
+  "current",
+  "batchOrder",
+  "ack",
+  "batches"
+ ]
+}

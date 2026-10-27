@@ -1,0 +1,84 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "project",
+ "type": "object",
+ "properties": {
+  "name": {
+   "type": "string"
+  },
+  "unity_root": {
+   "type": "string"
+  },
+  "unity_version": {
+   "type": "string"
+  },
+  "render_pipeline": {
+   "type": "string"
+  },
+  "ui_system": {
+   "enum": [
+    "uGUI",
+    "UI Toolkit"
+   ]
+  },
+  "ui_packages": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "ui_root": {
+   "type": "string"
+  },
+  "reference_resolution": {
+   "type": "object",
+   "properties": {
+    "width": {
+     "type": "integer"
+    },
+    "height": {
+     "type": "integer"
+    }
+   },
+   "required": [
+    "width",
+    "height"
+   ]
+  },
+  "platforms": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   },
+   "minItems": 1
+  },
+  "screenshot_ratios": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   },
+   "minItems": 1
+  },
+  "touch_min_px": {
+   "type": "number"
+  },
+  "guid_index_roots": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   },
+   "minItems": 1
+  }
+ },
+ "required": [
+  "name",
+  "unity_root",
+  "ui_system",
+  "ui_root",
+  "reference_resolution",
+  "platforms",
+  "screenshot_ratios",
+  "touch_min_px",
+  "guid_index_roots"
+ ]
+}

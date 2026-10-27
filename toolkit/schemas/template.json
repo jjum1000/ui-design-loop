@@ -1,0 +1,171 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "template",
+ "type": "object",
+ "properties": {
+  "slug": {
+   "type": "string",
+   "pattern": "^[a-z0-9][a-z0-9_.-]*$"
+  },
+  "name": {
+   "type": "string"
+  },
+  "path": {
+   "type": "string",
+   "pattern": "^Assets/"
+  },
+  "guid": {
+   "type": [
+    "string",
+    "null"
+   ]
+  },
+  "address": {
+   "type": [
+    "string",
+    "null"
+   ]
+  },
+  "rule": {
+   "enum": [
+    "A",
+    "B"
+   ]
+  },
+  "kind": {
+   "enum": [
+    "button",
+    "tab",
+    "toggle",
+    "popup",
+    "slot",
+    "gauge",
+    "currency",
+    "reddot",
+    "tooltip",
+    "toast",
+    "listcell",
+    "icon",
+    "textstyle",
+    "decor",
+    "other"
+   ]
+  },
+  "kindBasis": {
+   "type": "string"
+  },
+  "tier": {
+   "enum": [
+    "atom",
+    "composite",
+    "screen"
+   ]
+  },
+  "counts": {
+   "type": "object",
+   "additionalProperties": {
+    "type": "integer"
+   }
+  },
+  "usageTotal": {
+   "type": "integer"
+  },
+  "users": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "user": {
+      "type": "string"
+     },
+     "userType": {
+      "type": "string"
+     },
+     "kind": {
+      "enum": [
+       "nested",
+       "variant",
+       "scene",
+       "field",
+       "code-ui",
+       "code-loader",
+       "code-wrap",
+       "code-local"
+      ]
+     },
+     "path": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "user",
+     "userType",
+     "kind",
+     "path"
+    ]
+   }
+  },
+  "screens": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "scenes": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "contains": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "variants": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "overrides": {
+   "type": [
+    "object",
+    "null"
+   ]
+  },
+  "lookalikes": {
+   "type": [
+    "array",
+    "null"
+   ]
+  },
+  "thumbnail": {
+   "type": [
+    "string",
+    "null"
+   ]
+  }
+ },
+ "required": [
+  "slug",
+  "name",
+  "path",
+  "guid",
+  "rule",
+  "kind",
+  "kindBasis",
+  "tier",
+  "counts",
+  "usageTotal",
+  "users",
+  "screens",
+  "scenes",
+  "contains",
+  "variants",
+  "overrides",
+  "lookalikes",
+  "thumbnail"
+ ]
+}

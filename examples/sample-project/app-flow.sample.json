@@ -1,0 +1,34 @@
+{
+ "updatedAt": "2026-01-01T00:00:00+00:00",
+ "appScreen": "HomeView",
+ "apps": [
+  {"contentsType": "Shop", "value": 1, "label": "Shop", "enabled": true, "hidden": null, "manual": true,
+   "icon": null, "iconPath": "Assets/SampleUI/Sprites/icon_coin.png", "screens": ["ShopView"]},
+  {"contentsType": "Inventory", "value": 2, "label": "Bag", "enabled": true, "hidden": null, "manual": true,
+   "icon": null, "iconPath": "Assets/SampleUI/Sprites/icon_shield.png", "screens": ["InventoryView"]},
+  {"contentsType": "Profile", "value": 3, "label": "Profile", "enabled": true, "hidden": null, "manual": true,
+   "icon": null, "iconPath": "Assets/SampleUI/Sprites/icon_avatar.png", "screens": ["ProfileView"]},
+  {"contentsType": "Settings", "value": 4, "label": "Settings", "enabled": true, "hidden": null, "manual": true,
+   "icon": null, "iconPath": "Assets/SampleUI/Sprites/icon_gear.png", "screens": ["SettingsPopup"]}
+ ],
+ "screens": {
+  "HomeView": {"uiType": "HomeView", "controller": null, "prefab": "Assets/SampleUI/UI/Contents/Home/HomeView.prefab", "slug": "homeview",
+   "next": [
+    {"uiType": "ShopView", "file": "app-flow.sample.json", "line": 0, "via": "manual"},
+    {"uiType": "InventoryView", "file": "app-flow.sample.json", "line": 0, "via": "manual"},
+    {"uiType": "ProfileView", "file": "app-flow.sample.json", "line": 0, "via": "manual"},
+    {"uiType": "SettingsPopup", "file": "app-flow.sample.json", "line": 0, "via": "manual"}]},
+  "ShopView": {"uiType": "ShopView", "controller": null, "prefab": "Assets/SampleUI/UI/Contents/Shop/ShopView.prefab", "slug": "shopview",
+   "next": [{"uiType": "RewardPopup", "file": "app-flow.sample.json", "line": 0, "via": "manual"}]},
+  "InventoryView": {"uiType": "InventoryView", "controller": null, "prefab": "Assets/SampleUI/UI/Contents/Inventory/InventoryView.prefab",
+   "slug": "inventoryview", "next": []},
+  "ProfileView": {"uiType": "ProfileView", "controller": null, "prefab": "Assets/SampleUI/UI/Contents/Profile/ProfileView.prefab",
+   "slug": "profileview", "next": []},
+  "SettingsPopup": {"uiType": "SettingsPopup", "controller": null, "prefab": "Assets/SampleUI/UI/Contents/Settings/SettingsPopup.prefab",
+   "slug": "settingspopup", "next": []},
+  "RewardPopup": {"uiType": "RewardPopup", "controller": null, "prefab": "Assets/SampleUI/UI/Contents/Reward/RewardPopup.prefab",
+   "slug": "rewardpopup", "next": []}
+ },
+ "unresolved": [],
+ "stats": {"apps": 4, "appsShown": 4, "screens": 6, "edges": 5, "note": "hand-written stand-in for a project producer"}
+}

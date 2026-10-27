@@ -1,0 +1,21 @@
+__pycache__/
+*.pyc
+.ruff_cache/
+.pytest_cache/
+*.tmp
+# Unity (examples/sample-project)
+examples/sample-project/Library/
+examples/sample-project/Temp/
+examples/sample-project/Logs/
+examples/sample-project/obj/
+examples/sample-project/UserSettings/
+examples/sample-project/*.csproj
+examples/sample-project/*.sln
+# demo output inside the sample workspace (run_demo.py --clean removes it)
+examples/sample-project/ui-audit/*
+!examples/sample-project/ui-audit/project.json
+!examples/sample-project/ui-audit/spec/
+examples/sample-project/ui-audit/spec/*
+!examples/sample-project/ui-audit/spec/batch-plan.json
+!examples/sample-project/ui-audit/design/
+examples/sample-project/Docs/

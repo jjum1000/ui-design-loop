@@ -1,0 +1,92 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "token-registry",
+ "type": "object",
+ "properties": {
+  "category": {
+   "enum": [
+    "color",
+    "type",
+    "spacing",
+    "nineslice",
+    "size"
+   ]
+  },
+  "tokens": {
+   "type": "object",
+   "additionalProperties": {
+    "type": "object",
+    "properties": {
+     "valueKey": {
+      "type": "string"
+     },
+     "createdAt": {
+      "type": "string"
+     },
+     "createdBatch": {
+      "type": "string",
+      "pattern": "^b[0-9]+$"
+     }
+    },
+    "required": [
+     "valueKey",
+     "createdAt",
+     "createdBatch"
+    ]
+   }
+  },
+  "aliases": {
+   "type": "object",
+   "additionalProperties": {
+    "type": "string"
+   }
+  },
+  "retired": {
+   "type": "object",
+   "additionalProperties": {
+    "type": "object",
+    "properties": {
+     "at": {
+      "type": "string"
+     },
+     "reason": {
+      "type": "string"
+     },
+     "successors": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    },
+    "required": [
+     "at",
+     "reason",
+     "successors"
+    ]
+   }
+  },
+  "families": {
+   "type": "object",
+   "additionalProperties": {
+    "enum": [
+     "base",
+     "grade",
+     "attribute"
+    ]
+   }
+  },
+  "exceptions": {
+   "type": "object",
+   "additionalProperties": {
+    "type": "string"
+   }
+  }
+ },
+ "required": [
+  "category",
+  "tokens",
+  "aliases",
+  "retired"
+ ]
+}

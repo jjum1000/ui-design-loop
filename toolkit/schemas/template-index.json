@@ -1,0 +1,105 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "template-index",
+ "type": "object",
+ "properties": {
+  "updatedAt": {
+   "type": "string"
+  },
+  "templates": {
+   "type": "array",
+   "items": {
+    "type": "string",
+    "pattern": "^[a-z0-9][a-z0-9_.-]*$"
+   }
+  },
+  "screens": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_.-]*$"
+     },
+     "name": {
+      "type": "string"
+     },
+     "path": {
+      "type": "string",
+      "pattern": "^Assets/"
+     },
+     "templates": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    },
+    "required": [
+     "slug",
+     "name",
+     "path",
+     "templates"
+    ]
+   }
+  },
+  "unused": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "path": {
+      "type": "string",
+      "pattern": "^Assets/"
+     },
+     "name": {
+      "type": "string"
+     },
+     "suffix": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "path",
+     "name",
+     "suffix"
+    ]
+   }
+  },
+  "excluded": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "path": {
+      "type": "string",
+      "pattern": "^Assets/"
+     },
+     "reason": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "path",
+     "reason"
+    ]
+   }
+  },
+  "rules": {
+   "type": "object"
+  },
+  "counts": {
+   "type": "object"
+  }
+ },
+ "required": [
+  "updatedAt",
+  "templates",
+  "screens",
+  "unused",
+  "excluded",
+  "rules",
+  "counts"
+ ]
+}

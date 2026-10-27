@@ -1,0 +1,601 @@
+{
+ "$comment": "피드백 이벤트 한 줄(feedback/log.jsonl). 정본 = feedback/CONTRACT.md 3절. validate.py 부분집합이라 길이 상한·전이 규칙은 feedback_core 가 검사. 개정 L: open 에 path·suggest, kind 에 template(상한·결합 규칙은 코어). 개정 A: user 이벤트(open·comment·close·reopen)에 선택 author(작성자 이름, 길이 상한은 코어). 개정 F: open·comment 에 선택 attachments(첨부 이미지 1~6개, by=user 만·name 상한·파일 실존은 코어).",
+ "anyOf": [
+  {
+   "type": "object",
+   "required": [
+    "type",
+    "at",
+    "by",
+    "id",
+    "screen",
+    "stage",
+    "version",
+    "kind",
+    "text",
+    "component"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "type": {
+     "type": "string",
+     "enum": [
+      "open"
+     ]
+    },
+    "at": {
+     "type": "string",
+     "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}([+-]\\d{2}:\\d{2}|Z)$"
+    },
+    "by": {
+     "type": "string",
+     "enum": [
+      "user"
+     ]
+    },
+    "id": {
+     "type": "string",
+     "pattern": "^fb-\\d{4,}$"
+    },
+    "screen": {
+     "type": "string",
+     "minLength": 1
+    },
+    "stage": {
+     "type": "string",
+     "enum": [
+      "wire",
+      "mockup"
+     ]
+    },
+    "version": {
+     "type": "string",
+     "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "kind": {
+     "type": "string",
+     "enum": [
+      "bug",
+      "visual",
+      "copy",
+      "flow",
+      "other",
+      "template"
+     ]
+    },
+    "text": {
+     "type": "string",
+     "minLength": 1
+    },
+    "component": {
+     "type": [
+      "string",
+      "null"
+     ],
+     "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "idx": {
+     "type": "string",
+     "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+    },
+    "template": {
+     "type": "string",
+     "minLength": 1
+    },
+    "selector": {
+     "type": "string",
+     "minLength": 1
+    },
+    "bbox": {
+     "type": "object",
+     "required": [
+      "x",
+      "y",
+      "w",
+      "h"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "x": {
+       "type": "number"
+      },
+      "y": {
+       "type": "number"
+      },
+      "w": {
+       "type": "number"
+      },
+      "h": {
+       "type": "number"
+      }
+     }
+    },
+    "state": {
+     "type": "string",
+     "minLength": 1
+    },
+    "path": {
+     "type": "array",
+     "minItems": 1,
+     "maxItems": 12,
+     "items": {
+      "anyOf": [
+       {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+         "area"
+        ],
+        "properties": {
+         "area": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+         },
+         "template": {
+          "type": "string",
+          "minLength": 1
+         },
+         "variant": {
+          "type": "string",
+          "minLength": 1
+         },
+         "idx": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+         },
+         "selector": {
+          "type": "string",
+          "minLength": 1
+         }
+        }
+       },
+       {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+         "template"
+        ],
+        "properties": {
+         "area": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+         },
+         "template": {
+          "type": "string",
+          "minLength": 1
+         },
+         "variant": {
+          "type": "string",
+          "minLength": 1
+         },
+         "idx": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+         },
+         "selector": {
+          "type": "string",
+          "minLength": 1
+         }
+        }
+       },
+       {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+         "selector"
+        ],
+        "properties": {
+         "area": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+         },
+         "template": {
+          "type": "string",
+          "minLength": 1
+         },
+         "variant": {
+          "type": "string",
+          "minLength": 1
+         },
+         "idx": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+         },
+         "selector": {
+          "type": "string",
+          "minLength": 1
+         }
+        }
+       }
+      ]
+     }
+    },
+    "suggest": {
+     "type": "object",
+     "required": [
+      "template"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "template": {
+       "type": "string",
+       "pattern": "^[a-z0-9][a-z0-9_.-]*$"
+      },
+      "variant": {
+       "type": "string",
+       "minLength": 1
+      }
+     }
+    },
+    "author": {
+     "type": "string",
+     "minLength": 1
+    },
+    "attachments": {
+     "type": "array",
+     "minItems": 1,
+     "maxItems": 6,
+     "items": {
+      "type": "object",
+      "required": [
+       "path"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "path": {
+        "type": "string",
+        "pattern": "^feedback/attachments/[0-9a-f]{20}\\.(png|jpg|gif|webp)$"
+       },
+       "name": {
+        "type": "string",
+        "minLength": 1
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "type": "object",
+   "required": [
+    "type",
+    "at",
+    "by",
+    "id",
+    "text"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "type": {
+     "type": "string",
+     "enum": [
+      "comment"
+     ]
+    },
+    "at": {
+     "type": "string",
+     "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}([+-]\\d{2}:\\d{2}|Z)$"
+    },
+    "by": {
+     "type": "string",
+     "enum": [
+      "user",
+      "claude"
+     ]
+    },
+    "id": {
+     "type": "string",
+     "pattern": "^fb-\\d{4,}$"
+    },
+    "text": {
+     "type": "string",
+     "minLength": 1
+    },
+    "author": {
+     "type": "string",
+     "minLength": 1
+    },
+    "attachments": {
+     "type": "array",
+     "minItems": 1,
+     "maxItems": 6,
+     "items": {
+      "type": "object",
+      "required": [
+       "path"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "path": {
+        "type": "string",
+        "pattern": "^feedback/attachments/[0-9a-f]{20}\\.(png|jpg|gif|webp)$"
+       },
+       "name": {
+        "type": "string",
+        "minLength": 1
+       }
+      }
+     }
+    }
+   }
+  },
+  {
+   "type": "object",
+   "required": [
+    "type",
+    "at",
+    "by",
+    "ids",
+    "claim",
+    "snap"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "type": {
+     "type": "string",
+     "enum": [
+      "claim"
+     ]
+    },
+    "at": {
+     "type": "string",
+     "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}([+-]\\d{2}:\\d{2}|Z)$"
+    },
+    "by": {
+     "type": "string",
+     "enum": [
+      "claude"
+     ]
+    },
+    "ids": {
+     "type": "array",
+     "minItems": 1,
+     "items": {
+      "type": "string",
+      "pattern": "^fb-\\d{4,}$"
+     }
+    },
+    "claim": {
+     "type": "string",
+     "pattern": "^cl-\\d{4,}$"
+    },
+    "snap": {
+     "type": "string",
+     "minLength": 1,
+     "pattern": "^[^\\\\:]+$"
+    }
+   }
+  },
+  {
+   "type": "object",
+   "required": [
+    "type",
+    "at",
+    "by",
+    "ids",
+    "claim",
+    "text"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "type": {
+     "type": "string",
+     "enum": [
+      "release"
+     ]
+    },
+    "at": {
+     "type": "string",
+     "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}([+-]\\d{2}:\\d{2}|Z)$"
+    },
+    "by": {
+     "type": "string",
+     "enum": [
+      "claude"
+     ]
+    },
+    "ids": {
+     "type": "array",
+     "minItems": 1,
+     "items": {
+      "type": "string",
+      "pattern": "^fb-\\d{4,}$"
+     }
+    },
+    "claim": {
+     "type": "string",
+     "pattern": "^cl-\\d{4,}$"
+    },
+    "text": {
+     "type": "string",
+     "minLength": 1
+    }
+   }
+  },
+  {
+   "type": "object",
+   "required": [
+    "type",
+    "at",
+    "by",
+    "rev",
+    "ids",
+    "claim",
+    "files",
+    "diff",
+    "summary",
+    "shots"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "type": {
+     "type": "string",
+     "enum": [
+      "revision"
+     ]
+    },
+    "at": {
+     "type": "string",
+     "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}([+-]\\d{2}:\\d{2}|Z)$"
+    },
+    "by": {
+     "type": "string",
+     "enum": [
+      "claude"
+     ]
+    },
+    "rev": {
+     "type": "string",
+     "pattern": "^rev-\\d{4,}$"
+    },
+    "ids": {
+     "type": "array",
+     "minItems": 1,
+     "items": {
+      "type": "string",
+      "pattern": "^fb-\\d{4,}$"
+     }
+    },
+    "claim": {
+     "type": "string",
+     "pattern": "^cl-\\d{4,}$"
+    },
+    "files": {
+     "type": "array",
+     "minItems": 1,
+     "items": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[^\\\\:]+$"
+     }
+    },
+    "diff": {
+     "type": "string",
+     "minLength": 1,
+     "pattern": "^[^\\\\:]+$"
+    },
+    "summary": {
+     "type": "string",
+     "minLength": 1
+    },
+    "shots": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "required": [
+       "id",
+       "before",
+       "after"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "id": {
+        "type": "string",
+        "pattern": "^fb-\\d{4,}$"
+       },
+       "before": {
+        "type": [
+         "string",
+         "null"
+        ],
+        "pattern": "^[^\\\\:]+$"
+       },
+       "after": {
+        "type": [
+         "string",
+         "null"
+        ],
+        "pattern": "^[^\\\\:]+$"
+       }
+      }
+     }
+    },
+    "newVersion": {
+     "type": "string",
+     "pattern": "^[a-z0-9][a-z0-9-]*$"
+    }
+   }
+  },
+  {
+   "type": "object",
+   "required": [
+    "type",
+    "at",
+    "by",
+    "id"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "type": {
+     "type": "string",
+     "enum": [
+      "close"
+     ]
+    },
+    "at": {
+     "type": "string",
+     "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}([+-]\\d{2}:\\d{2}|Z)$"
+    },
+    "by": {
+     "type": "string",
+     "enum": [
+      "user"
+     ]
+    },
+    "id": {
+     "type": "string",
+     "pattern": "^fb-\\d{4,}$"
+    },
+    "text": {
+     "type": "string",
+     "minLength": 1
+    },
+    "author": {
+     "type": "string",
+     "minLength": 1
+    }
+   }
+  },
+  {
+   "type": "object",
+   "required": [
+    "type",
+    "at",
+    "by",
+    "id",
+    "text"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "type": {
+     "type": "string",
+     "enum": [
+      "reopen"
+     ]
+    },
+    "at": {
+     "type": "string",
+     "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}([+-]\\d{2}:\\d{2}|Z)$"
+    },
+    "by": {
+     "type": "string",
+     "enum": [
+      "user"
+     ]
+    },
+    "id": {
+     "type": "string",
+     "pattern": "^fb-\\d{4,}$"
+    },
+    "text": {
+     "type": "string",
+     "minLength": 1
+    },
+    "author": {
+     "type": "string",
+     "minLength": 1
+    }
+   }
+  }
+ ]
+}

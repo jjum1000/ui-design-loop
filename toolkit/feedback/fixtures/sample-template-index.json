@@ -1,0 +1,12 @@
+{
+ "$comment": "selftest 임시 루트의 data/template-index.json 자리. 코어는 templates 배열만 읽는다(개정 L 7.1).",
+ "templates": [
+  "contenttitle",
+  "friendlistunit",
+  "thumbnailcharacterunit",
+  "thumbnailemptyunit",
+  "thumbnailselectunit",
+  "button-yellow",
+  "scrollbackground"
+ ]
+}

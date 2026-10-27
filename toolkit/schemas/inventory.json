@@ -1,0 +1,467 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "inventory",
+ "type": "object",
+ "properties": {
+  "batch": {
+   "type": "string",
+   "pattern": "^b[0-9]+$"
+  },
+  "screen": {
+   "type": "string",
+   "pattern": "^[a-z0-9][a-z0-9_.-]*$"
+  },
+  "prefab": {
+   "type": "string"
+  },
+  "parsedAt": {
+   "type": "string"
+  },
+  "nodes": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "type": "string",
+      "pattern": "^Assets/.+\\.prefab#.+$"
+     },
+     "name": {
+      "type": "string"
+     },
+     "path": {
+      "type": "string"
+     },
+     "parent": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "depth": {
+      "type": "integer"
+     },
+     "active": {
+      "type": "boolean"
+     },
+     "children": {
+      "type": "integer"
+     },
+     "components": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "rect": {
+      "anyOf": [
+       {
+        "type": "object",
+        "properties": {
+         "w": {
+          "type": "number"
+         },
+         "h": {
+          "type": "number"
+         },
+         "sizeDelta": {
+          "type": "array",
+          "items": {
+           "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+         },
+         "anchorMin": {
+          "type": "array",
+          "items": {
+           "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+         },
+         "anchorMax": {
+          "type": "array",
+          "items": {
+           "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+         },
+         "pivot": {
+          "type": "array",
+          "items": {
+           "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+         },
+         "pos": {
+          "type": "array",
+          "items": {
+           "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+         },
+         "scale": {
+          "type": "array",
+          "items": {
+           "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+         }
+        },
+        "required": [
+         "w",
+         "h",
+         "anchorMin",
+         "anchorMax"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "graphic": {
+      "anyOf": [
+       {
+        "type": "object",
+        "properties": {
+         "type": {
+          "type": "string"
+         },
+         "color": {
+          "type": "string",
+          "pattern": "^#[0-9A-F]{8}$"
+         },
+         "sprite": {
+          "anyOf": [
+           {
+            "type": "object",
+            "properties": {
+             "guid": {
+              "type": "string"
+             },
+             "fileID": {
+              "type": "integer"
+             },
+             "path": {
+              "type": [
+               "string",
+               "null"
+              ]
+             },
+             "name": {
+              "type": [
+               "string",
+               "null"
+              ]
+             },
+             "border": {
+              "anyOf": [
+               {
+                "type": "array",
+                "items": {
+                 "type": "number"
+                }
+               },
+               {
+                "type": "null"
+               }
+              ]
+             }
+            },
+            "required": [
+             "guid",
+             "path"
+            ]
+           },
+           {
+            "type": "null"
+           }
+          ]
+         },
+         "imageType": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "raycast": {
+          "type": "boolean"
+         },
+         "material": {
+          "type": [
+           "string",
+           "null"
+          ]
+         }
+        },
+        "required": [
+         "type",
+         "color"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "text": {
+      "anyOf": [
+       {
+        "type": "object",
+        "properties": {
+         "component": {
+          "type": "string"
+         },
+         "font": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "size": {
+          "type": "number"
+         },
+         "color": {
+          "type": "string",
+          "pattern": "^#[0-9A-F]{8}$"
+         },
+         "autoSize": {
+          "type": "boolean"
+         },
+         "sizeMin": {
+          "type": "number"
+         },
+         "sizeMax": {
+          "type": "number"
+         },
+         "bold": {
+          "type": "boolean"
+         },
+         "content": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "component",
+         "font",
+         "size",
+         "color"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "layout": {
+      "anyOf": [
+       {
+        "type": "object",
+        "properties": {
+         "type": {
+          "type": "string"
+         },
+         "spacing": {
+          "anyOf": [
+           {
+            "type": "number"
+           },
+           {
+            "type": "array",
+            "items": {
+             "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+           }
+          ]
+         },
+         "padding": {
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         },
+         "cellSize": {
+          "type": "array",
+          "items": {
+           "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+         }
+        },
+        "required": [
+         "type"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "selectable": {
+      "anyOf": [
+       {
+        "type": "object",
+        "properties": {
+         "type": {
+          "type": "string"
+         },
+         "transition": {
+          "type": "string"
+         },
+         "states": {
+          "type": "array",
+          "items": {
+           "enum": [
+            "Normal",
+            "Pressed",
+            "Disabled",
+            "Hover",
+            "Focused"
+           ]
+          }
+         }
+        },
+        "required": [
+         "type",
+         "states"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "nested": {
+      "anyOf": [
+       {
+        "type": "object",
+        "properties": {
+         "prefab": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "guid": {
+          "type": "string"
+         },
+         "instanceRoot": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "guid",
+         "instanceRoot"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "canvas": {
+      "anyOf": [
+       {
+        "type": "object",
+        "properties": {
+         "scaler": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "referenceResolution": {
+          "type": "array",
+          "items": {
+           "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+         },
+         "match": {
+          "type": "number"
+         }
+        }
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "flags": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "screen": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_.-]*$"
+     }
+    },
+    "required": [
+     "id",
+     "name",
+     "path",
+     "depth",
+     "active",
+     "components",
+     "rect",
+     "graphic",
+     "text",
+     "layout",
+     "selectable",
+     "nested",
+     "flags",
+     "screen"
+    ]
+   },
+   "minItems": 1
+  },
+  "unresolved": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "reason": {
+      "enum": [
+       "guid-unresolved",
+       "sprite-missing",
+       "runtime-container",
+       "missing-script",
+       "nested-missing"
+      ]
+     },
+     "detail": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "id",
+     "reason",
+     "detail"
+    ]
+   }
+  }
+ },
+ "required": [
+  "batch",
+  "screen",
+  "prefab",
+  "parsedAt",
+  "nodes",
+  "unresolved"
+ ]
+}

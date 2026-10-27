@@ -1,0 +1,138 @@
+{
+ "version": 1,
+ "screens": {
+  "ShopView": {
+   "app": "Shop",
+   "label": "상점",
+   "stages": [
+    {
+     "stage": "wire",
+     "version": "r3",
+     "label": "와이어 3회차",
+     "status": "done",
+     "entry": "design/shop/wire.html",
+     "files": [
+      "design/shop/wire.html"
+     ],
+     "states": [
+      {
+       "id": "board",
+       "label": "보드",
+       "steps": [
+        {
+         "call": "loadState",
+         "args": [
+          "mixed"
+         ]
+        }
+       ]
+      },
+      {
+       "id": "team-detail",
+       "label": "팀 상세",
+       "steps": [
+        {
+         "call": "loadState",
+         "args": [
+          "mixed"
+         ]
+        },
+        {
+         "call": "onSelectRow",
+         "args": [
+          120001
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "stage": "mockup",
+     "version": "cp-r2",
+     "label": "목업 C′ r2",
+     "status": "confirmed",
+     "entry": "design/shop/variant-cp/index.html",
+     "files": [
+      "design/shop/variant-cp/index.html",
+      "design/shop/variant-cp/app.js",
+      "design/shop/variant-cp/style.css"
+     ],
+     "states": [
+      {
+       "id": "team",
+       "label": "상점 팀 탭",
+       "steps": [
+        {
+         "call": "loadState",
+         "args": [
+          "mixed"
+         ]
+        }
+       ]
+      },
+      {
+       "id": "request",
+       "label": "의뢰 탭",
+       "steps": [
+        {
+         "call": "loadState",
+         "args": [
+          "mixed"
+         ]
+        },
+        {
+         "call": "showTab",
+         "args": [
+          "request"
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "stage": "mockup",
+     "version": "c",
+     "label": "목업 C",
+     "status": "done",
+     "entry": "design/shop/variant-c/index.html",
+     "files": [
+      "design/shop/variant-c/*"
+     ],
+     "states": [
+      {
+       "id": "board",
+       "label": "보드",
+       "steps": [
+        {
+         "call": "loadState",
+         "args": [
+          "mixed"
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "ShopBuyPopup": {
+   "app": "Shop",
+   "label": "상점 편성 팝업",
+   "stages": [
+    {
+     "stage": "wire",
+     "version": "r1",
+     "label": "와이어 1회차",
+     "status": "wip",
+     "entry": "design/shop/wire.html",
+     "files": [
+      "design/shop/wire.html"
+     ],
+     "states": []
+    }
+   ]
+  }
+ }
+}

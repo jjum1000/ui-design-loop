@@ -1,0 +1,25 @@
+{
+ "status": "candidate",
+ "note": "Candidate batch order mapped onto the sample project's folders. Not final until the user confirms the screen list at H1. Folders are relative to project.json ui_root.",
+ "screenRule": "Candidates are every .prefab under the folders. Names ending in View, Popup or UI are 'screen candidates'; anything else (Unit, Button, Frame, Bar ...) is a 'part'. A part nested (PrefabInstance) inside a screen candidate of the same batch is marked 'included'.",
+ "batches": [
+  {
+   "batch": "b1",
+   "title": "Common parts, Home and Shop",
+   "screens": ["Common parts", "Home", "Shop"],
+   "folders": ["Common", "Contents/Home", "Contents/Shop"],
+   "questions": [
+    "Shop/ShopView has a hand-made 'BuyAllButton' that looks like Button_Primary but is not a prefab instance — should it be replaced by a Button_Primary instance, or is it an intentional variant?"
+   ]
+  },
+  {
+   "batch": "b2",
+   "title": "Inventory, Profile, Settings and Reward",
+   "screens": ["Inventory", "Profile", "Settings", "Reward"],
+   "folders": ["Contents/Inventory", "Contents/Profile", "Contents/Settings", "Contents/Reward"],
+   "questions": [
+    "Common/ProgressBar is not used by any screen — keep it in the template catalog, or drop it?"
+   ]
+  }
+ ]
+}

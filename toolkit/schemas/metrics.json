@@ -1,0 +1,77 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "metrics",
+ "type": "object",
+ "properties": {
+  "kind": {
+   "enum": [
+    "button",
+    "tab",
+    "toggle",
+    "popup",
+    "slot",
+    "gauge",
+    "currency",
+    "reddot",
+    "tooltip",
+    "toast",
+    "listcell",
+    "icon",
+    "textstyle",
+    "decor",
+    "other"
+   ]
+  },
+  "updatedAt": {
+   "type": "string"
+  },
+  "groupCount": {
+   "type": "integer"
+  },
+  "nodeCount": {
+   "type": "integer"
+  },
+  "screenCount": {
+   "type": "integer"
+  },
+  "uniqueSprites": {
+   "type": "integer"
+  },
+  "uniqueColors": {
+   "type": "integer"
+  },
+  "uniqueSizes": {
+   "type": "integer"
+  },
+  "fontSizes": {
+   "type": "array",
+   "items": {
+    "type": "number"
+   }
+  },
+  "candidateShare": {
+   "type": "number"
+  },
+  "stateCoverage": {
+   "type": "object"
+  },
+  "smallTouchTargets": {
+   "type": "integer"
+  },
+  "topGroups": {
+   "type": "array",
+   "items": {
+    "type": "object"
+   }
+  }
+ },
+ "required": [
+  "kind",
+  "updatedAt",
+  "groupCount",
+  "nodeCount",
+  "screenCount",
+  "uniqueColors",
+  "uniqueSizes"
+ ]
+}

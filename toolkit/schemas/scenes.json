@@ -1,0 +1,144 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "scenes",
+ "type": "object",
+ "properties": {
+  "updatedAt": {
+   "type": "string"
+  },
+  "scenes": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string"
+     },
+     "address": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "path": {
+      "type": "string",
+      "pattern": "^Assets/"
+     },
+     "exists": {
+      "type": "boolean"
+     },
+     "matchedBy": {
+      "type": "string"
+     },
+     "sources": {
+      "type": "array",
+      "items": {
+       "type": "object",
+       "properties": {
+        "file": {
+         "type": "string"
+        },
+        "key": {
+         "type": "string"
+        },
+        "kind": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "file",
+        "key",
+        "kind"
+       ]
+      },
+      "minItems": 1
+     }
+    },
+    "required": [
+     "name",
+     "path",
+     "exists",
+     "sources"
+    ]
+   }
+  },
+  "unreferenced": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string"
+     },
+     "address": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "path": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "name",
+     "path"
+    ]
+   }
+  },
+  "missing": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string"
+     },
+     "sources": {
+      "type": "array",
+      "items": {
+       "type": "object",
+       "properties": {
+        "file": {
+         "type": "string"
+        },
+        "key": {
+         "type": "string"
+        },
+        "kind": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "file",
+        "key",
+        "kind"
+       ]
+      },
+      "minItems": 1
+     }
+    },
+    "required": [
+     "name",
+     "sources"
+    ]
+   }
+  },
+  "chains": {
+   "type": "array",
+   "items": {
+    "type": "object"
+   }
+  },
+  "stats": {
+   "type": "object"
+  }
+ },
+ "required": [
+  "updatedAt",
+  "scenes",
+  "unreferenced",
+  "missing",
+  "stats"
+ ]
+}

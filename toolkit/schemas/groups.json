@@ -1,0 +1,89 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "groups",
+ "type": "object",
+ "properties": {
+  "kind": {
+   "enum": [
+    "button",
+    "tab",
+    "toggle",
+    "popup",
+    "slot",
+    "gauge",
+    "currency",
+    "reddot",
+    "tooltip",
+    "toast",
+    "listcell",
+    "icon",
+    "textstyle",
+    "decor",
+    "other"
+   ]
+  },
+  "updatedAt": {
+   "type": "string"
+  },
+  "groups": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "type": "string",
+      "pattern": "^[a-z]+-[0-9a-f]{4,40}$"
+     },
+     "sigKey": {
+      "type": "string"
+     },
+     "signature": {
+      "type": "object"
+     },
+     "members": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "minItems": 1
+     },
+     "screens": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "count": {
+      "type": "integer"
+     },
+     "status": {
+      "enum": [
+       "미검토",
+       "후보"
+      ]
+     },
+     "candidateReason": {
+      "type": [
+       "string",
+       "null"
+      ]
+     }
+    },
+    "required": [
+     "id",
+     "sigKey",
+     "signature",
+     "members",
+     "screens",
+     "count",
+     "status"
+    ]
+   }
+  }
+ },
+ "required": [
+  "kind",
+  "updatedAt",
+  "groups"
+ ]
+}

@@ -1,0 +1,47 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "batch",
+ "type": "object",
+ "properties": {
+  "batch": {
+   "type": "string",
+   "pattern": "^b[0-9]+$"
+  },
+  "title": {
+   "type": "string"
+  },
+  "createdAt": {
+   "type": "string"
+  },
+  "screens": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_.-]*$"
+     },
+     "name": {
+      "type": "string"
+     },
+     "prefab": {
+      "type": "string",
+      "pattern": "^Assets/.*\\.prefab$"
+     }
+    },
+    "required": [
+     "slug",
+     "name",
+     "prefab"
+    ]
+   },
+   "minItems": 1
+  }
+ },
+ "required": [
+  "batch",
+  "screens",
+  "createdAt"
+ ]
+}

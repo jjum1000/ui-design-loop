@@ -1,0 +1,12 @@
+{
+  "name": "ui-design-loop",
+  "owner": {"name": "ui-design-loop authors"},
+  "plugins": [
+    {
+      "name": "ui-design-loop",
+      "source": "./",
+      "description": "Unity uGUI UI audit -> catalog -> design-system index -> wireframe/skinning -> feedback loop (skills: ui-audit, ui-design-system, ui-wire-skin, ui-feedback).",
+      "version": "0.1.0"
+    }
+  ]
+}
