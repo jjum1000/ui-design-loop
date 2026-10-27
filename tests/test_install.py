@@ -61,7 +61,7 @@ class InstallTest(unittest.TestCase):
         with open(p, "rb") as f:
             data = f.read()
         with open(p, "wb") as f:
-            f.write(data.replace(b"\n", b"\r\n"))
+            f.write(data.replace(b"\r\n", b"\n").replace(b"\n", b"\r\n"))
         self.assertEqual(run("--target", self.ws, "--check")[0], 0)
         # a real edit is detected and blocks a plain reinstall
         with open(p, "a", encoding="utf-8") as f:
