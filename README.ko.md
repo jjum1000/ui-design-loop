@@ -43,18 +43,30 @@ Unity 프로젝트 ──► A1 수집 ─► A2 분류 ─► A3 통합 ─► 
 ```bash
 git clone https://github.com/jjum1000/ui-design-loop
 cd ui-design-loop
-python examples/run_demo.py            # 툴킷을 examples/sample-project/ui-audit 에 설치하고 전체 파이프라인 실행
+python examples/run_demo.py                # 1~2분: 툴킷을 examples/sample-project/ui-audit 에 설치하고 전체 파이프라인 실행
+python examples/run_demo.py --with-unity   # 2~3분: 위와 같고, Unity 로 썸네일·화면 배치 맵까지 렌더
 ```
 
-`examples/sample-project/ui-audit/catalog/app-flow.html`(탐색기)과 `.../catalog/index.html`(감사 카탈로그)을 브라우저로 열거나,
-리뷰 서버를 띄웁니다:
+`--with-unity` 없이(Unity 불필요) 돌리면 카탈로그는 동작하지만 그림 자리는 모두 «썸네일 없음»·«배치 맵 없음» 자리표시이고
+화면 맵 페이지는 비어 있습니다. Unity(`examples/sample-project/ProjectSettings/ProjectVersion.txt` 의 버전, Hub 기본 폴더 또는
+`UNITY_EXE`)가 있으면 같은 페이지에 실제 렌더가 나옵니다. 샘플 프로젝트를 연 에디터는 먼저 닫으세요.
+데모(와 테스트)를 다시 돌리면 결과를 처음부터 다시 만듭니다.
+
+브라우저로 이 순서대로 여세요:
+1. `examples/sample-project/ui-audit/catalog/app-flow.html` — 탐색기 홈: 앱 아이콘 → 화면 → 다음 화면
+2. `.../catalog/templates.html` — 템플릿으로 재사용되는 프리팹, 쓰이는 곳, 오버라이드
+3. `.../catalog/map.html` — 렌더된 화면과 노드마다 상자(`--with-unity` 필요)
+4. `.../catalog/index.html` — 감사 카탈로그(A5): 파편화 지표·그룹·토큰
+
+리뷰 뷰어는 로컬 서버가 필요합니다:
 
 ```bash
-python examples/sample-project/ui-audit/scripts/review_server.py
-# → http://127.0.0.1:8770/ui-audit/catalog/review.html?screen=ShopView&stage=wire
+python examples/sample-project/ui-audit/scripts/review_server.py      # Ctrl+C 로 종료, --port N 으로 포트 변경
+# → http://127.0.0.1:8770/ui-audit/catalog/review.html?screen=ShopView&stage=wire     (stage=wire | mockup)
 ```
 
-`run_demo.py --with-unity` 는 Unity 배치 모드로 썸네일·배치 맵까지 렌더합니다(샘플 프로젝트를 연 에디터는 먼저 닫으세요).
+와이어에서 컴포넌트를 누르고 이름과 의견을 적어 «남기기» 를 누르세요. Playwright 가 있으면 데모가 하단 도크(«도크» 버튼)의
+컴포넌트 크롭도 만듭니다.
 
 ## 내 프로젝트에 쓰기
 
@@ -103,8 +115,11 @@ docs/             구조, project.json 레퍼런스, 피드백 루프, 교훈
 ## 테스트
 
 ```bash
-python tests/run_all.py          # 설치 테스트 + 샘플 프로젝트 대상 모든 스크립트 셀프테스트 + 스모크 테스트
+python tests/run_all.py                # 2~3분: 설치 테스트 + 샘플 프로젝트 대상 모든 스크립트 셀프테스트 + 스모크 테스트
+python tests/run_all.py --with-unity   # 같고, 안의 샘플 데모가 Unity 렌더까지
 ```
+
+테스트는 샘플 데모 결과를 다시 만듭니다(렌더 그림을 유지하려면 `--with-unity`).
 
 ## 라이선스
 

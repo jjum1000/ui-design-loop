@@ -14,7 +14,8 @@ What it touches:
   never written: project.json, spec/batch-plan.json, data/, ds/ (e.g. ds/token-names.seed.json), catalog output,
   feedback logs, and any project-specific producer scripts you keep next to the tool scripts.
 
-The lock records the toolkit version and a SHA-256 per file (text files hashed with LF line endings, so a CRLF
+The lock records the toolkit version, the exact source commit of this repository (`source`, with `+dirty` when
+toolkit/ has uncommitted changes) and a SHA-256 per file (text files hashed with LF line endings, so a CRLF
 checkout does not count as a change). Files dropped by a newer toolkit version are removed only if unmodified.
 Standard library only.
 """
@@ -23,6 +24,7 @@ import hashlib
 import json
 import os
 import shutil
+import subprocess
 import sys
 
 REPO = os.path.dirname(os.path.abspath(__file__))
@@ -38,6 +40,18 @@ PROTECTED_DIRS = ("data/", "ds/", "batches/", "input/", "previews/", "reports/",
 def version():
     with open(os.path.join(REPO, ".claude-plugin", "plugin.json"), encoding="utf-8") as f:
         return json.load(f)["version"]
+
+
+def source():
+    """Commit of this repository that the files come from; '+dirty' if toolkit/ has uncommitted changes. None without git."""
+    try:
+        sha = subprocess.run(["git", "-C", REPO, "rev-parse", "HEAD"], capture_output=True, text=True)
+        dirty = subprocess.run(["git", "-C", REPO, "status", "--porcelain", "--", "toolkit"], capture_output=True, text=True)
+    except OSError:
+        return None
+    if sha.returncode:
+        return None
+    return sha.stdout.strip() + ("+dirty" if dirty.stdout.strip() else "")
 
 
 def digest(path):
@@ -90,7 +104,8 @@ def check(target):
         elif digest(p) != h:
             print("modified  " + rel)
             bad += 1
-    print("%s %s: %d files, %d differ from the lock" % (lock["tool"], lock["version"], len(lock["files"]), bad))
+    print("%s %s (%s): %d files, %d differ from the lock" % (lock["tool"], lock["version"], lock.get("source") or "source unknown",
+                                                          len(lock["files"]), bad))
     return 1 if bad else 0
 
 
@@ -129,11 +144,13 @@ def install(target, force=False, adopt=False):
             removed.append(rel)
         elif os.path.exists(p):
             kept.append(rel)
-    lock = {"tool": "ui-design-loop", "version": version(), "files": dict(sorted(new.items()))}
+    lock = {"tool": "ui-design-loop", "version": version(), "source": source(), "files": dict(sorted(new.items()))}
     with open(os.path.join(target, LOCK), "w", encoding="utf-8", newline="\n") as f:
         f.write(json.dumps(lock, indent=1) + "\n")
-    print("installed ui-design-loop %s → %s (%d files%s%s)" % (
-        lock["version"], target, len(new), ", removed %d" % len(removed) if removed else "",
+    if (lock["source"] or "").endswith("+dirty"):
+        print("warning: toolkit/ has uncommitted changes — the lock cannot name an exact source commit")
+    print("installed ui-design-loop %s (%s) → %s (%d files%s%s)" % (
+        lock["version"], (lock["source"] or "source unknown")[:12], target, len(new), ", removed %d" % len(removed) if removed else "",
         ", kept %d modified files dropped by this version: %s" % (len(kept), ", ".join(kept)) if kept else ""))
     return 0
 

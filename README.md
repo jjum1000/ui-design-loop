@@ -45,19 +45,36 @@ optional tiny local HTTP server for the feedback loop.
 ```bash
 git clone https://github.com/jjum1000/ui-design-loop
 cd ui-design-loop
-python examples/run_demo.py            # installs the toolkit into examples/sample-project/ui-audit and runs the pipeline
+python examples/run_demo.py            # ~1–2 min: installs the toolkit into examples/sample-project/ui-audit and runs the pipeline
+python examples/run_demo.py --with-unity   # ~2–3 min: same, plus thumbnails and screen layout maps rendered by Unity
 ```
 
-Then open `examples/sample-project/ui-audit/catalog/app-flow.html` (explorer) and
-`examples/sample-project/ui-audit/catalog/index.html` (audit catalog) in a browser, or start the review server:
+Without `--with-unity` (no Unity needed) the catalog works but every image slot is a placeholder
+(«썸네일 없음» = no thumbnail, «배치 맵 없음» = no layout map) and the screen map page stays empty. With Unity
+(the editor version in `examples/sample-project/ProjectSettings/ProjectVersion.txt`, found under the default Hub
+folder or via `UNITY_EXE`) the same pages show real renders. Close any editor that has the sample project open first.
+Re-running the demo (or the tests) regenerates its output from scratch.
+
+Open in a browser, in this order:
+1. `examples/sample-project/ui-audit/catalog/app-flow.html` — explorer home: app icons → screens → next screens
+2. `.../catalog/templates.html` — which prefabs are reused as templates, where, with which overrides
+3. `.../catalog/map.html` — rendered screens with every node's box (needs `--with-unity`)
+4. `.../catalog/index.html` — the audit catalog (A5): fragmentation metrics, groups, tokens
+
+Then try the review viewer, which needs the local server:
 
 ```bash
-python examples/sample-project/ui-audit/scripts/review_server.py
-# → http://127.0.0.1:8770/ui-audit/catalog/review.html?screen=ShopView&stage=wire
+python examples/sample-project/ui-audit/scripts/review_server.py      # Ctrl+C to stop; --port N to change the port
+# → http://127.0.0.1:8770/ui-audit/catalog/review.html?screen=ShopView&stage=wire     (stage=wire | mockup)
 ```
 
-`run_demo.py --with-unity` additionally renders thumbnails and layout maps through Unity in batch mode (close any
-editor that has the sample project open first).
+Click a component in the wireframe, type your name and a comment, and press 남기기 (leave). With Playwright installed the
+demo also builds the bottom dock's component crops («도크» button).
+
+Korean UI labels you will meet: 앱 흐름 = app flow · 화면 맵 = screen map · 템플릿 = templates · 씬 = scenes ·
+미사용 = unused · 현황 = status · 토큰 = tokens · 컴포넌트 = components · 결정 = decisions · 미검토 = not reviewed ·
+표준 / 폐기 / 예외 = standard / retired / exception · 리뷰 뷰어 = review viewer · 버그 / 미감 / 카피 / 동선 / 기타 =
+bug / visual / copy / flow / other.
 
 ## Use it on your project
 
@@ -106,8 +123,11 @@ docs/             architecture, project.json reference, feedback loop, lessons l
 ## Tests
 
 ```bash
-python tests/run_all.py          # installer tests + every script selftest against the sample project + smoke tests
+python tests/run_all.py                # ~2–3 min: installer tests + every script selftest against the sample project + smoke tests
+python tests/run_all.py --with-unity   # same, but the sample demo inside it also renders with Unity
 ```
+
+The test run regenerates the sample demo output (pass `--with-unity` to keep rendered images).
 
 ## License
 

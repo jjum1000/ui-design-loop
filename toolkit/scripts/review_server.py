@@ -365,7 +365,7 @@ def run_server(port, host="127.0.0.1"):
     httpd = Server((host, port), Handler)
     httpd.public_host = host
     url = "http://%s:%d/ui-audit/catalog/app-flow.html" % (host, httpd.server_port)
-    print("UI 리뷰 서버 시작: %s  (Ctrl+C 로 종료)" % url)
+    print("UI 리뷰 서버 시작: %s  (Ctrl+C 로 종료)" % url, flush=True)
     try:
         httpd.serve_forever(poll_interval=0.2)
     except KeyboardInterrupt:
@@ -435,12 +435,17 @@ def _running_server(root, host=None):
 
 def _raw_request(base, method, path, data=None, headers=None):
     """urllib 로 요청 1개. (status, body_bytes) 를 돌려준다(예외를 던지지 않음)."""
-    req = urllib.request.Request(base + path, data=data, method=method, headers=headers or {})
-    try:
-        with urllib.request.urlopen(req, timeout=5) as r:
-            return r.status, r.read()
-    except urllib.error.HTTPError as e:
-        return e.code, e.read()
+    for attempt in range(3):
+        req = urllib.request.Request(base + path, data=data, method=method, headers=headers or {})
+        try:
+            with urllib.request.urlopen(req, timeout=5) as r:
+                return r.status, r.read()
+        except urllib.error.HTTPError as e:
+            return e.code, e.read()
+        except (ConnectionAbortedError, ConnectionResetError, BrokenPipeError):
+            # 거부(403·413) 응답 뒤 서버가 본문을 다 받기 전에 연결을 닫으면 Windows 는 쓰기 쪽에서 10053 을 낸다 — 다시 시도
+            if attempt == 2:
+                raise
 
 
 def _post_json(base, path, obj, headers=None):

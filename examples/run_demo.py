@@ -150,6 +150,16 @@ def final_report():
         f.write("demo\n")
 
 
+def have_playwright():
+    try:
+        from playwright.sync_api import sync_playwright
+        with sync_playwright() as pw:
+            pw.chromium.launch().close()
+        return True
+    except Exception:  # noqa: BLE001 — not installed or no browser
+        return False
+
+
 def explorer(with_unity):
     run("scripts/parse_prefab.py", "--reindex")
     run("scripts/scene_enum.py", "--run")
@@ -173,6 +183,10 @@ def explorer(with_unity):
     run("scripts/feedback.py", "build")  # feedback/state.js from design/registry.json (+ empty log) for the viewer badges
     run("scripts/build_catalog.py", "--all")
     run("scripts/validate.py", "--rename", "catalog")
+    if have_playwright():  # component crops + per-state keys for the review dock (headless Chromium)
+        run("scripts/catalog_library.py", "--build")
+    else:
+        print("(review dock crops need python playwright + chromium — skipped)")
     run("scripts/build_catalog.py", "--check")
     run("scripts/ds_index.py", "--run")
     if with_unity:

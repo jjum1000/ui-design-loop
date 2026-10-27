@@ -53,6 +53,7 @@ class InstallTest(unittest.TestCase):
         self.assert_project_untouched()
         lock = self.lock()
         self.assertIn("scripts/common.py", lock["files"])
+        self.assertTrue(lock.get("source") is None or len(lock["source"].split("+")[0]) == 40, lock.get("source"))
         for rel in PROJECT_FILES:
             self.assertNotIn(rel, lock["files"])
         self.assertEqual(run("--target", self.ws, "--check")[0], 0)
