@@ -92,11 +92,15 @@ bug / visual / copy / flow / other.
    `ui-audit/toolkit.lock.json`) and never touches your `project.json`, data or project scripts.
 3. **Add the renderer package** (Editor-only) to `Packages/manifest.json`:
    ```json
-   "com.ui-design-loop.bridge": "https://github.com/jjum1000/ui-design-loop.git?path=/unity#v0.1.0"
+   "com.ui-design-loop.bridge": "https://github.com/jjum1000/ui-design-loop.git?path=/unity#v0.1.1"
    ```
 4. **Configure** `ui-audit/project.json` — see [docs/project-json.md](docs/project-json.md).
 5. In Claude Code, run the **`ui-audit`** skill (“start the UI audit”) and follow the gates. `state.py render` always
    prints the next action; `run_audit.ps1` / `run_audit.sh` runs the agent steps unattended.
+
+   > **Security note:** `run_audit` lets `claude -p` accept edits and run `python` without prompts, following
+   > `handoff/START.md` and the files in your workspace. Run it only on a repository whose contents you trust — a
+   > malicious commit to those files becomes unattended code execution on your machine.
 
 ## Skills
 

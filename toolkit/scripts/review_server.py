@@ -190,6 +190,8 @@ def _fold_payload(screen=None):
 class Handler(http.server.BaseHTTPRequestHandler):
     server_version = "UIAuditReview/1"
     protocol_version = "HTTP/1.1"
+    # 소켓 읽기 타임아웃(초) — 본문을 다 보내지 않고 버티는 연결이 스레드를 영구히 붙잡지 못하게 한다(slowloris)
+    timeout = 15
 
     def log_message(self, fmt, *args):
         # 요청 본문 원문은 찍지 않는다 — 메서드·경로·상태코드 한 줄 요약만.
@@ -814,6 +816,41 @@ def selftest():
             assert status == 403, (status, body)
 
         run("[11] 개정 A: --host 주소의 Origin 허용·그 밖 403", check_host_origin)
+
+    # [12] 본문을 다 보내지 않고 버티는 연결(slowloris)이 스레드를 영구히 붙잡지 않는지 — 읽기 타임아웃
+    troot = _make_test_root()
+    old_timeout = Handler.timeout
+
+    def check_default_timeout():
+        assert old_timeout and old_timeout <= 60, old_timeout
+
+    run("[12a] Handler 기본 읽기 타임아웃이 설정돼 있다", check_default_timeout)
+    Handler.timeout = 0.5  # 아래 검사는 짧은 값으로 같은 동작(타임아웃 시 연결 종료)을 확인한다
+    try:
+        with _running_server(troot) as tbase:
+            def check_stalled_body_times_out():
+                import socket
+                import time
+                parsed = urllib.parse.urlsplit(tbase)
+                s = socket.create_connection((parsed.hostname, parsed.port), timeout=5)
+                try:
+                    s.sendall(b"POST /api/feedback HTTP/1.1\r\nHost: x\r\nContent-Type: application/json\r\n"
+                              b"Content-Length: 100\r\n\r\n{\"type\"")
+                    started = time.time()
+                    try:
+                        while s.recv(4096):
+                            pass  # 서버가 응답을 쓰든 말든 연결을 닫을 때까지 읽는다
+                    except (ConnectionResetError, ConnectionAbortedError):
+                        pass
+                    assert time.time() - started < 4, "stalled connection was not closed"
+                finally:
+                    s.close()
+                status, _ = _raw_request(tbase, "GET", "/api/feedback")
+                assert status == 200, status  # 서버는 계속 응답한다
+
+            run("[12] 본문 미완 연결은 읽기 타임아웃으로 닫힌다", check_stalled_body_times_out)
+    finally:
+        Handler.timeout = old_timeout
 
     ok = all(r[1] for r in results)
     print("review_server.py selftest %s (%d/%d PASS)" %

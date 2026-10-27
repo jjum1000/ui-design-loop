@@ -23,6 +23,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -82,12 +83,29 @@ def toolkit_files():
     return out
 
 
+def in_scope(target, rel):
+    """True if a lock entry names a toolkit file inside target (not absolute, no '..', not project data)."""
+    if not isinstance(rel, str) or not rel or "\\" in rel or os.path.isabs(rel) or re.match(r"^[A-Za-z]:", rel):
+        return False
+    if any(part in ("", ".", "..") for part in rel.split("/")) or is_protected(rel):
+        return False
+    root = os.path.realpath(target)
+    return os.path.realpath(os.path.join(root, rel)).startswith(root + os.sep)
+
+
 def read_lock(target):
+    """The workspace lock; refuses (exit 2) when it lists any path outside the toolkit's scope."""
     path = os.path.join(target, LOCK)
     if not os.path.exists(path):
         return None
     with open(path, encoding="utf-8") as f:
-        return json.load(f)
+        lock = json.load(f)
+    bad = [rel for rel in lock.get("files", {}) if not in_scope(target, rel)]
+    if bad:
+        print("refused — %s lists paths outside the toolkit's scope (nothing read, written or removed):\n  %s"
+              % (path, "\n  ".join(map(str, bad))))
+        raise SystemExit(2)
+    return lock
 
 
 def check(target):

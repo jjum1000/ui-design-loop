@@ -84,11 +84,14 @@ python examples/sample-project/ui-audit/scripts/review_server.py      # Ctrl+C �
    `project.json`·데이터·프로젝트 전용 스크립트는 건드리지 않습니다.
 3. **렌더러 패키지**(에디터 전용)를 `Packages/manifest.json` 에 추가:
    ```json
-   "com.ui-design-loop.bridge": "https://github.com/jjum1000/ui-design-loop.git?path=/unity#v0.1.0"
+   "com.ui-design-loop.bridge": "https://github.com/jjum1000/ui-design-loop.git?path=/unity#v0.1.1"
    ```
 4. `ui-audit/project.json` **설정** — [docs/project-json.md](docs/project-json.md) 참고.
 5. Claude Code 에서 **`ui-audit`** 스킬("UI 오딧 시작")을 실행하고 관문을 따라갑니다. `state.py render` 가 늘 다음 행동을 알려 주고,
    `run_audit.ps1` / `run_audit.sh` 가 에이전트 단계를 자동으로 돌립니다.
+
+   > **보안 주의:** `run_audit` 는 `claude -p` 가 `handoff/START.md` 와 작업 공간 파일을 따라 확인 없이 편집하고 `python` 을
+   > 실행하게 합니다. 내용을 신뢰하는 저장소에서만 돌리세요 — 그 파일들에 악성 커밋이 들어오면 내 컴퓨터에서 무인 코드 실행이 됩니다.
 
 ## 스킬
 

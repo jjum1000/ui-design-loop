@@ -109,6 +109,29 @@ class InstallTest(unittest.TestCase):
         self.assertTrue(os.path.exists(os.path.join(self.ws, "scripts", "old_edited.py")))
         self.assert_project_untouched()
 
+    def test_lock_paths_outside_scope_are_refused(self):
+        """A crafted lock must not make install delete (or check read) files outside the toolkit's scope."""
+        import hashlib
+        self.assertEqual(run("--target", self.ws)[0], 0)
+        victim = os.path.join(self.tmp, "victim.txt")
+        with open(victim, "w", encoding="utf-8", newline="\n") as f:
+            f.write("keep me\n")
+        h = hashlib.sha256(b"keep me\n").hexdigest()
+        project_h = hashlib.sha256(PROJECT_FILES["project.json"].encode()).hexdigest()
+        clean = self.lock()
+        for bad in ("../victim.txt", victim, victim.replace("\\", "/"), "scripts/../../victim.txt",
+                    "scripts\\..\\..\\victim.txt", "project.json"):
+            lock = json.loads(json.dumps(clean))
+            lock["files"][bad] = project_h if bad == "project.json" else h
+            with open(os.path.join(self.ws, "toolkit.lock.json"), "w", encoding="utf-8") as f:
+                json.dump(lock, f)
+            for args in (("--target", self.ws), ("--target", self.ws, "--force"), ("--target", self.ws, "--check")):
+                rc, out = run(*args)
+                self.assertNotEqual(rc, 0, "%s %s: %s" % (bad, args, out))
+                self.assertIn("outside", out, out)
+            self.assertTrue(os.path.exists(victim), bad)
+            self.assert_project_untouched()
+
     def test_toolkit_ships_no_project_paths(self):
         rc, out = run("--list")
         self.assertEqual(rc, 0, out)
