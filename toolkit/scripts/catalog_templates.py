@@ -237,7 +237,7 @@ def viewer(B, td, pdir, lay, up, vid="layout-data"):
             "<div class='legend'>%s<span style='--c:#bbb'><i></i>일반 노드</span></div></div>"
             "<div class='stagewrap chk%s'><div class='stage'><img src='%s' alt='%s'><div class='boxes mode-tpl'></div></div></div>"
             "<aside class='side'><div class='info'><div class='mut'>박스에 마우스를 올리면 이름이, 템플릿 박스를 누르면 그 템플릿으로 내려간다. "
-            "Shift+클릭은 선택만. 트리 항목을 누르면 위치를 찾는다. Ctrl+휠 확대.</div></div>"
+            "Shift+클릭은 선택만. 박스가 겹친 곳은 고르는 목록이 뜬다. 트리 항목을 누르면 위치를 찾는다. Ctrl+휠 확대.</div></div>"
             "<div class='tf'><input type='search' placeholder='노드·템플릿 이름 찾기'></div><div class='vtree'></div></aside></div>"
             "<script type='application/json' id='%s'>%s</script>") % (
         blank, vid, legend, " small" if lay["kind"] == "template" else "", src or "", E(lay["slug"]), vid,

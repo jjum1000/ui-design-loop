@@ -176,6 +176,18 @@ background:repeating-linear-gradient(-45deg,transparent 0 6px,rgba(0,0,0,.45) 6p
 .tip{position:fixed;z-index:100;pointer-events:none;background:var(--ink);color:#eeeadf;border:1px solid var(--c,var(--acc));padding:6px 9px;
 font:12px/1.4 var(--body);max-width:360px;box-shadow:var(--shadow);display:none}
 .tip b{color:var(--c,var(--acc));font:700 15px var(--disp);letter-spacing:.4px}.tip .k{font:10px var(--mono);color:#9b978a}
+/* 겹친 박스 선택창: 한 점에 박스가 여럿이면 클릭 때 목록으로 고른다 */
+.vpop{position:fixed;z-index:120;display:none;min-width:260px;max-width:400px;max-height:60vh;overflow:auto;padding:6px;
+background:rgba(18,17,14,.97);color:#eeeadf;border:1px solid var(--acc);box-shadow:var(--shadow);font:12px/1.35 var(--body)}
+.vpop.on{display:block}
+.vpop h4{margin:2px 4px 6px;font:700 13px var(--disp);letter-spacing:.4px;color:var(--acc)}
+.vpop button{display:flex;gap:8px;align-items:center;width:100%;text-align:left;background:none;color:inherit;font:inherit;cursor:pointer;
+padding:5px 7px;border:1px solid transparent;border-left:3px solid var(--c,#6b675a)}
+.vpop button.on{background:#26241e;border-color:var(--c,#9b978a)}
+.vpop .tt{flex:0 0 64px;font:10px var(--mono);text-transform:uppercase;color:var(--c,#9b978a);overflow:hidden;text-overflow:ellipsis}
+.vpop .lab{min-width:0}.vpop .lab b,.vpop .lab small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vpop .lab small{font:10px var(--mono);color:#9b978a}
+.vpop .hint{margin:6px 4px 2px;font:10px var(--mono);color:#9b978a}
 /* ---------- 템플릿 상세 */
 .hero{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:end}
 .facts{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
@@ -298,12 +310,14 @@ function viewer(v){
     return {b:b,t:t,html:'<b>'+esc(t?t[1]:b[6])+'</b>'+(t?' <span class="k">'+esc(t[2])+' · '+esc(t[3])+'</span>':'')+
       '<div class="k">'+esc(b[6])+' · '+Math.round(b[2]/D.s)+'×'+Math.round(b[3]/D.s)+'px'+(b[5]&1?' · 예시 아이템':'')+(b[5]&2?' · ResourcesLoader':'')+'</div>'}}
   function hl(i,on){if(boxes[i])boxes[i].classList.toggle('hl',on);if(rows[i])rows[i].classList.toggle('hl',on)}
+  /* 루트부터 i 까지의 노드 이름 */
+  function path(i){var p=[],dep=D.b[i][4];for(var j=i;j>=0&&dep>=0;j--){if(D.b[j][4]===dep){p.unshift(D.b[j][6]);dep--}}return p}
   function pick(i,scrollStage){
     if(sel>=0){if(boxes[sel])boxes[sel].classList.remove('sel');if(rows[sel])rows[sel].classList.remove('sel')}
     sel=i;var d=desc(i);if(boxes[i])boxes[i].classList.add('sel');rows[i].classList.add('sel');
     reveal(tree,rows[i]);
     if(scrollStage&&boxes[i])reveal(wrap,boxes[i],true);
-    var p=[],dep=D.b[i][4];for(var j=i;j>=0&&dep>=0;j--){if(D.b[j][4]===dep){p.unshift(D.b[j][6]);dep--}}
+    var p=path(i);
     info.innerHTML='<div class="nm">'+esc(d.t?d.t[1]:d.b[6])+'</div>'+(d.t?'<div class="facts"><span class="tag y">'+esc(d.t[2])+'</span><span class="tag">'+esc(d.t[3])+'</span></div>':'')+
       '<div class="p">'+esc(p.join(' / '))+'</div>'+(d.t?'<a class="go" href="'+D.base+esc(d.t[0])+'.html">템플릿 열기 ›</a>':'');
     info.style.setProperty('--c','');
@@ -313,9 +327,34 @@ function viewer(v){
     if(rows[i])reveal(tree,rows[i])});
   bx.addEventListener('mouseout',function(e){var el=e.target.closest('.box');if(!el)return;hl(+el.dataset.i,false);tip.style.display='none'});
   bx.addEventListener('mousemove',function(e){tip.style.left=Math.min(e.clientX+14,innerWidth-370)+'px';tip.style.top=(e.clientY+16)+'px'});
-  bx.addEventListener('click',function(e){var el=e.target.closest('.box');if(!el)return;var i=+el.dataset.i,b=D.b[i];
-    if(b[7]>=0&&!(e.shiftKey||e.altKey)){location.href=D.base+D.t[b[7]][0]+'.html';return}
-    pick(i,false)});
+  /* 박스 하나 = 템플릿이면 열기, 아니면(또는 Shift·Alt) 트리에서 선택 */
+  function act(i,only){closePop();if(D.b[i][7]>=0&&!only){location.href=D.base+D.t[D.b[i][7]][0]+'.html';return}pick(i,false)}
+  /* 클릭 지점의 보이는 박스 전부 — 안쪽(작은 것)부터 */
+  function hits(e){return document.elementsFromPoint(e.clientX,e.clientY).filter(function(el){return el.parentNode===bx})
+    .map(function(el){return +el.dataset.i}).sort(function(a,b){return D.b[a][2]*D.b[a][3]-D.b[b][2]*D.b[b][3]||D.b[b][4]-D.b[a][4]})}
+  var pop=document.body.appendChild(Object.assign(document.createElement('div'),{className:'vpop'})),pk=[],pa=0;
+  function setPa(n){if(pk[pa]!=null)hl(pk[pa],false);var bs=pop.querySelectorAll('button');if(bs[pa])bs[pa].classList.remove('on');
+    pa=(n+pk.length)%pk.length;hl(pk[pa],true);bs[pa].classList.add('on');reveal(pop,bs[pa])}
+  function closePop(){if(!pk.length)return;pk.forEach(function(i){hl(i,false)});pk=[];pop.classList.remove('on')}
+  function openPop(list,e){
+    closePop();pk=list;pa=0;tip.style.display='none';
+    pop.innerHTML='<h4>겹친 요소 '+list.length+'개 · 무엇을 열까요</h4>'+list.map(function(i,n){var b=D.b[i],t=b[7]>=0?D.t[b[7]]:null;
+      return '<button type="button" data-n="'+n+'"'+(t?' data-k="'+esc(t[2])+'"':'')+'><span class="tt">'+esc(t?t[2]:b[5]&2?'로더':b[5]&1?'예시':'노드')+'</span>'+
+        '<span class="lab"><b>'+esc(t?t[1]:b[6])+'</b><small>'+esc([Math.round(b[2]/D.s)+'×'+Math.round(b[3]/D.s)+'px',path(i).slice(-3,-1).join(' / ')+(t&&b[6]!==t[1]?' / '+b[6]:'')].filter(Boolean).join(' · '))+'</small></span></button>'}).join('')+
+      '<div class="hint">↑↓ 이동 · Enter 열기(노드는 선택) · Shift = 선택만 · Esc 닫기</div>';
+    pop.style.left=pop.style.top='0px';pop.classList.add('on');var r=pop.getBoundingClientRect();
+    pop.style.left=Math.max(8,Math.min(e.clientX+10,innerWidth-r.width-8))+'px';pop.style.top=Math.max(8,Math.min(e.clientY+10,innerHeight-r.height-8))+'px';
+    setPa(0)}
+  pop.addEventListener('mouseover',function(e){var b=e.target.closest('button');if(b)setPa(+b.dataset.n)});
+  pop.addEventListener('click',function(e){var b=e.target.closest('button');if(b)act(pk[+b.dataset.n],e.shiftKey||e.altKey)});
+  document.addEventListener('keydown',function(e){if(!pk.length)return;
+    if(e.key==='Escape')closePop();else if(e.key==='ArrowDown'||e.key==='ArrowUp')setPa(pa+(e.key==='ArrowDown'?1:-1));
+    else if(e.key==='Enter')act(pk[pa],e.shiftKey);else return;e.preventDefault()});
+  document.addEventListener('mousedown',function(e){if(pk.length&&!pop.contains(e.target))closePop()},true);
+  wrap.addEventListener('scroll',closePop);addEventListener('resize',closePop);
+  bx.addEventListener('click',function(e){var el=e.target.closest('.box');if(!el)return;
+    var h=hits(e);if(h.length>1){openPop(h,e);return}
+    act(+el.dataset.i,e.shiftKey||e.altKey)});
   tree.addEventListener('mouseover',function(e){var r=e.target.closest('[data-i]');if(r)hl(+r.dataset.i,true)});
   tree.addEventListener('mouseout',function(e){var r=e.target.closest('[data-i]');if(r)hl(+r.dataset.i,false)});
   tree.addEventListener('click',function(e){var r=e.target.closest('[data-i]');if(r)pick(+r.dataset.i,true)});
